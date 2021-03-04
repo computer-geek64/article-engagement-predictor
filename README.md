@@ -36,7 +36,7 @@ Given various features of a New York Times article as inputs, the goal of our pr
 
 # Discussion:
 
-By analyzing and predicting the number of comments anticipated for a given article, the publishers can determine the level of public interest in a given topic and can choose to follow up with corresponding related articles. In addition, the sentiment analysis will allow the editors to determine how polarizing an article is, and potentially provide items such as blog posts to provide a forum for further public discussion. If an article shows low sentiment, then the publishers can decide whether it is worthwhile to publish the article or possibly fine-tune it to keep readers more engaged.
+By analyzing and predicting the number of comments anticipated for an article, the publishers can determine the level of public interest in a given topic and can choose to follow up with corresponding related articles. Additionally, the sentiment analysis allows  the editors to determine how polarizing an article is, and potentially provide items such as blog posts to provide a forum for further public discussion. Low sentiment can tell the editor that perhaps the article should be revised to make it more engaging.
 
 # Dataset:
 
