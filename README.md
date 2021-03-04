@@ -32,12 +32,12 @@ The number of comments and average sentiment magnitude can be combined into a fi
 * Number of comments that a potential published article could receive as well as the general sentiment towards that topic
   * These values could be combined to create an overall engagement metric that determines the strength of interactions that an article could generate
 * Classified groupings into different classes of articles based on topics
-  * Within each group, average number of comments
-* The model with the ability to predict the number of comments if an article with the input features is selected
+* A model with the ability to predict the number of comments for a given article with certain input features
+
 
 # Discussion:
 
-By analyzing and predicting the number of comments anticipated for a given article, the publishers can determine the level of public interest in a given topic and can choose to follow up with corresponding related articles. In addition, the sentiment analysis will allow the editors to determine how polarizing an article is, and potentially provide items such as blog posts to provide a forum for further public discussion. Note that all of this analysis hinges on the dataset’s given inputs which allow us to classify into article categories, and then breakdown the respective comments.
+By analyzing and predicting the number of comments anticipated for a given article, the publishers can determine the level of public interest in a given topic and can choose to follow up with corresponding related articles. In addition, the sentiment analysis will allow the editors to determine how polarizing an article is, and potentially provide items such as blog posts to provide a forum for further public discussion. If an article shows low sentiment, then the publishers can decide whether it is worthwhile to publish the article or possibly fine-tune it to keep readers more engaged.
 
 # Dataset:
 
