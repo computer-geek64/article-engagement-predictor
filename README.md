@@ -14,8 +14,18 @@ Given the comments of a New York Times article as inputs, with the size of the c
 
 
 # Methods:
+**Pre-processing:** 
+Eliminate rows that lack data for each feature (this is invalid data and should be discarded)
+Use a sentiment analysis natural language processing model to create an additional column on the comments dataset for the sentiment magnitude 
 
-Preprocessing:
+**Machine learning models used:**
+Two NLP models will be used (one model for prediction of the number of comments, one model for the average sentiment magnitude of the comments)
+Sentiment magnitude prediction uses the column we created in the preprocessing step
+The number of comments and average sentiment magnitude are directly correlated to levels of user engagement
+
+**Post-processing:**
+The number of comments and average sentiment magnitude can be combined into a final engagement metric through a mathematical formula
+
 
 
 # Potential Results:
