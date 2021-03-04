@@ -19,20 +19,36 @@
     <section class="main-content">
       <h1>
 <a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction:</h1>
-<p>The New York Times is an American newspaper that is widely regarded as one of the popular and well-established news sources in the world with over 130 Pulitzer prizes. Ranked 3rd in the US, it continues to publish about 150 articles per day, which users can read and comment on with their own views. Over the past few years, user engagement has steadily grown leading to stronger online opinions and the need to classify and measure the sort of engagement on articles is at an all-time high. As a rapidly evolving newspaper source, it is key for the New York Times to identify the most popular articles and attempt to predict readers’ critical responses. By predicting the public response, the newspaper can give more targeted articles which will draw in more readers and keep the public well informed and engaged about critical current events in the world. With deep polarization being a key issue in the United States, we decided to do our part and measure the quality of engagement, and the bias present within these comments.</p>
+<p>The New York Times is an American newspaper that is widely regarded as one of the popular and well-established news sources in the world. Over the past few years, user engagement has steadily grown leading to stronger online opinions and the need to classify and measure the sort of engagement on articles is at an all-time high. By predicting the public response, the newspaper can give more targeted articles which will draw in more readers and keep the public well informed and engaged about critical current events in the world. To do so, we will use an open-source dataset of 16,000 New York Times articles and 5 million corresponding comments, with over 30 features to examine.</p>
 <h1>
 <a id="problem-definition" class="anchor" href="#problem-definition" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Problem Definition:</h1>
-<p>Given the comments of a New York Times article as inputs, with the size of the comments, sentiment, and a number of comments as features for each article, it is possible to generate an overall engagement metric, which can provide editors with necessary insight and feedback on their writing.</p>
+<p>Given various features of a New York Times article as inputs, the goal of our project is to generate an overall <strong>engagement metric</strong>. This engagement metric can provide editors with necessary insight and feedback on their writing to gauge the audience reaction before they publicly publish their article.</p>
 <ul>
-<li>Article Features: headline, article newsdesk, article section, article length, keywords, abstract</li>
-<li>Comment Features: comment/comment thread body, depth, comment length, create date == update date</li>
-<li>Output of the model: Number of comments</li>
-<li>Output of the sentiment analysis: Magnitude of the sentiment</li>
-<li>Final output: Engagement metric (calculated by the number of comments, the magnitude of the sentiment, and the weighted sum of the magnitude of the sentiment of comment replies)</li>
+<li>Article Features: headline, article newsdesk, article section, article length, keywords, abstract, etc</li>
+<li>Output of the first model: Number of comments for the article</li>
+<li>Output of the second model: Forecasted average sentiment magnitude</li>
+<li>Final output: Engagement metric (calculated through a weighted sum of the number of comments and the magnitude of the sentiment that the article is forecasted to receive)</li>
 </ul>
 <h1>
 <a id="methods" class="anchor" href="#methods" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Methods:</h1>
-<p>Preprocessing:</p>
+<p><strong>Pre-processing:</strong></p>
+<ul>
+<li>Eliminate rows that lack data for each feature (this is invalid data and should be discarded)</li>
+<li>Use a sentiment analysis natural language processing model to create an additional column on the comments dataset for the sentiment magnitude</li>
+</ul>
+<p><strong>Machine learning models used:</strong></p>
+<ul>
+<li>Two NLP models will be used (one model for prediction of the number of comments, one model for the average sentiment magnitude of the comments)
+<ul>
+<li>Sentiment magnitude prediction uses the column we created in the preprocessing step</li>
+</ul>
+</li>
+<li>The number of comments and average sentiment magnitude are directly correlated to levels of user engagement</li>
+</ul>
+<p><strong>Post-processing:</strong></p>
+<ul>
+<li>The number of comments and average sentiment magnitude can be combined into a final engagement metric through a mathematical formula</li>
+</ul>
 <h1>
 <a id="potential-results" class="anchor" href="#potential-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Potential Results:</h1>
 <ul>
@@ -41,25 +57,20 @@
 <li>These values could be combined to create an overall engagement metric that determines the strength of interactions that an article could generate</li>
 </ul>
 </li>
-<li>Classified groupings into different classes of articles based on topics
-<ul>
-<li>Within each group, average number of comments</li>
-</ul>
-</li>
-<li>The model with the ability to predict the number of comments if an article with the input features is selected</li>
+<li>Classified groupings into different classes of articles based on topics</li>
+<li>A model with the ability to predict the number of comments for a given article with certain input features</li>
 </ul>
 <h1>
 <a id="discussion" class="anchor" href="#discussion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Discussion:</h1>
-<p>By analyzing and predicting the number of comments anticipated for a given article, the publishers can determine the level of public interest in a given topic and can choose to follow up with corresponding related articles. In addition, the sentiment analysis will allow the editors to determine how polarizing an article is, and potentially provide items such as blog posts to provide a forum for further public discussion. Note that all of this analysis hinges on the dataset’s given inputs which allow us to classify into article categories, and then breakdown the respective comments.</p>
+<p>By analyzing and predicting the number of comments anticipated for a given article, the publishers can determine the level of public interest in a given topic and can choose to follow up with corresponding related articles. In addition, the sentiment analysis will allow the editors to determine how polarizing an article is, and potentially provide items such as blog posts to provide a forum for further public discussion. If an article shows low sentiment, then the publishers can decide whether it is worthwhile to publish the article or possibly fine-tune it to keep readers more engaged.</p>
 <h1>
 <a id="dataset" class="anchor" href="#dataset" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dataset:</h1>
 <p><a href="https://www.kaggle.com/benjaminawd/new-york-times-articles-comments-2020">https://www.kaggle.com/benjaminawd/new-york-times-articles-comments-2020</a></p>
 <h1>
 <a id="references" class="anchor" href="#references" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>References:</h1>
-<p>Article from people who also performed sentiment analysis on NYT news articles, but for Financial Signal Prediction:
-<a href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.476.5693&amp;rep=rep1&amp;type=pdf">https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.476.5693&amp;rep=rep1&amp;type=pdf</a></p>
-<p>Predicting the volume of comments on online news stories:
-<a href="https://dl.acm.org/doi/abs/10.1145/1645953.1646225?casa_token=6uYvAaNOCnwAAAAA%3AzNjh1At3MQRrbf5q28ZTgFcfvZsmlrOy831jKJqZVZcGZCJS3nPd3A1mzLHeRQ-F0BUVR1HonWcfLg">https://dl.acm.org/doi/abs/10.1145/1645953.1646225?casa_token=6uYvAaNOCnwAAAAA%3AzNjh1At3MQRrbf5q28ZTgFcfvZsmlrOy831jKJqZVZcGZCJS3nPd3A1mzLHeRQ-F0BUVR1HonWcfLg</a></p>
+<p>Tsagkias, M., Weerkamp, W., &amp; De Rijke, M. (2009, November). Predicting the volume of comments on online news stories. In Proceedings of the 18th ACM conference on Information and knowledge management (pp. 1765-1768).</p>
+<p>Schumaker, R. P., Zhang, Y., Huang, C. N., &amp; Chen, H. (2012). Evaluating sentiment in financial news articles. Decision Support Systems, 53(3), 458-464.</p>
+<p>Althaus, S. L., &amp; Tewksbury, D. (2002). Agenda Setting and the “New” News: Patterns of Issue Importance Among Readers of the Paper and Online Versions of the New York Times. Communication Research, 29(2), 180–207. <a href="https://doi.org/10.1177/0093650202029002004">https://doi.org/10.1177/0093650202029002004</a></p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.gatech.edu/adsouza43/cs4641">ML Project</a> is maintained by <a href="https://github.gatech.edu/adsouza43">adsouza43</a>.</span>
