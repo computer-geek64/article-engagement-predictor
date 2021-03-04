@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>ML Project by adsouza43</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">ML Project</h1>
+      <h2 class="project-tagline">CS 4641 Project - Team 31</h2>
+      <a href="https://github.gatech.edu/adsouza43/cs4641" class="btn">View on GitHub</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction:</h1>
+<p>The New York Times is an American newspaper that is widely regarded as one of the popular and well-established news sources in the world with over 130 Pulitzer prizes. Ranked 3rd in the US, it continues to publish about 150 articles per day, which users can read and comment on with their own views. Over the past few years, user engagement has steadily grown leading to stronger online opinions and the need to classify and measure the sort of engagement on articles is at an all-time high. As a rapidly evolving newspaper source, it is key for the New York Times to identify the most popular articles and attempt to predict readers’ critical responses. By predicting the public response, the newspaper can give more targeted articles which will draw in more readers and keep the public well informed and engaged about critical current events in the world. With deep polarization being a key issue in the United States, we decided to do our part and measure the quality of engagement, and the bias present within these comments.</p>
+<h1>
+<a id="problem-definition" class="anchor" href="#problem-definition" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Problem Definition:</h1>
+<p>Given the comments of a New York Times article as inputs, with the size of the comments, sentiment, and a number of comments as features for each article, it is possible to generate an overall engagement metric, which can provide editors with necessary insight and feedback on their writing.</p>
+<ul>
+<li>Article Features: headline, article newsdesk, article section, article length, keywords, abstract</li>
+<li>Comment Features: comment/comment thread body, depth, comment length, create date == update date</li>
+<li>Output of the model: Number of comments</li>
+<li>Output of the sentiment analysis: Magnitude of the sentiment</li>
+<li>Final output: Engagement metric (calculated by the number of comments, the magnitude of the sentiment, and the weighted sum of the magnitude of the sentiment of comment replies)</li>
+</ul>
+<h1>
+<a id="methods" class="anchor" href="#methods" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Methods:</h1>
+<p>Preprocessing:</p>
+<h1>
+<a id="potential-results" class="anchor" href="#potential-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Potential Results:</h1>
+<ul>
+<li>Number of comments that a potential published article could receive as well as the general sentiment towards that topic
+<ul>
+<li>These values could be combined to create an overall engagement metric that determines the strength of interactions that an article could generate</li>
+</ul>
+</li>
+<li>Classified groupings into different classes of articles based on topics
+<ul>
+<li>Within each group, average number of comments</li>
+</ul>
+</li>
+<li>The model with the ability to predict the number of comments if an article with the input features is selected</li>
+</ul>
+<h1>
+<a id="discussion" class="anchor" href="#discussion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Discussion:</h1>
+<p>By analyzing and predicting the number of comments anticipated for a given article, the publishers can determine the level of public interest in a given topic and can choose to follow up with corresponding related articles. In addition, the sentiment analysis will allow the editors to determine how polarizing an article is, and potentially provide items such as blog posts to provide a forum for further public discussion. Note that all of this analysis hinges on the dataset’s given inputs which allow us to classify into article categories, and then breakdown the respective comments.</p>
+<h1>
+<a id="dataset" class="anchor" href="#dataset" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dataset:</h1>
+<p><a href="https://www.kaggle.com/benjaminawd/new-york-times-articles-comments-2020">https://www.kaggle.com/benjaminawd/new-york-times-articles-comments-2020</a></p>
+<h1>
+<a id="references" class="anchor" href="#references" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>References:</h1>
+<p>Article from people who also performed sentiment analysis on NYT news articles, but for Financial Signal Prediction:
+<a href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.476.5693&amp;rep=rep1&amp;type=pdf">https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.476.5693&amp;rep=rep1&amp;type=pdf</a></p>
+<p>Predicting the volume of comments on online news stories:
+<a href="https://dl.acm.org/doi/abs/10.1145/1645953.1646225?casa_token=6uYvAaNOCnwAAAAA%3AzNjh1At3MQRrbf5q28ZTgFcfvZsmlrOy831jKJqZVZcGZCJS3nPd3A1mzLHeRQ-F0BUVR1HonWcfLg">https://dl.acm.org/doi/abs/10.1145/1645953.1646225?casa_token=6uYvAaNOCnwAAAAA%3AzNjh1At3MQRrbf5q28ZTgFcfvZsmlrOy831jKJqZVZcGZCJS3nPd3A1mzLHeRQ-F0BUVR1HonWcfLg</a></p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.gatech.edu/adsouza43/cs4641">ML Project</a> is maintained by <a href="https://github.gatech.edu/adsouza43">adsouza43</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
