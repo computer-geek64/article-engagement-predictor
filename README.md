@@ -4,10 +4,9 @@ The New York Times is an American newspaper that is widely regarded as one of th
 
 # Problem Definition:
 
-Given the comments of a New York Times article as inputs, with the size of the comments, sentiment, and a number of comments as features for each article, it is possible to generate an overall engagement metric, which can provide editors with necessary insight and feedback on their writing.
+Given various features of a New York Times article as inputs, the goal of our project is to generate an overall **engagement metric**. This engagement metric can provide editors with necessary insight and feedback on their writing to gauge the audience reaction before they publicly publish their article.
 
 * Article Features: headline, article newsdesk, article section, article length, keywords, abstract
-* Comment Features: comment/comment thread body, depth, comment length, create date == update date
 * Output of the model: Number of comments
 * Output of the sentiment analysis: Magnitude of the sentiment
 * Final output: Engagement metric (calculated by the number of comments, the magnitude of the sentiment, and the weighted sum of the magnitude of the sentiment of comment replies)
