@@ -39,6 +39,8 @@ By analyzing and predicting the number of comments anticipated for a given artic
 Article from people who also performed sentiment analysis on NYT news articles, but for Financial Signal Prediction:
 [https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.476.5693&rep=rep1&type=pdf](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.476.5693&rep=rep1&type=pdf)
 
+Schumaker, R. P., Zhang, Y., Huang, C. N., & Chen, H. (2012). Evaluating sentiment in financial news articles. Decision Support Systems, 53(3), 458-464.
+
 Predicting the volume of comments on online news stories:
 [https://dl.acm.org/doi/abs/10.1145/1645953.1646225?casa_token=6uYvAaNOCnwAAAAA%3AzNjh1At3MQRrbf5q28ZTgFcfvZsmlrOy831jKJqZVZcGZCJS3nPd3A1mzLHeRQ-F0BUVR1HonWcfLg](https://dl.acm.org/doi/abs/10.1145/1645953.1646225?casa_token=6uYvAaNOCnwAAAAA%3AzNjh1At3MQRrbf5q28ZTgFcfvZsmlrOy831jKJqZVZcGZCJS3nPd3A1mzLHeRQ-F0BUVR1HonWcfLg)
 
