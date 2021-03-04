@@ -15,7 +15,7 @@ Given various features of a New York Times article as inputs, the goal of our pr
 # Methods:
 **Pre-processing:**
 * Eliminate rows that lack data for each feature (this is invalid data and should be discarded)
-* Use a sentiment analysis natural language processing model to create an additional column on the comments dataset for the sentiment magnitude
+* Use a sentiment analysis natural language processing model to create an additional average sentiment magnitude column on the articles dataset for all of the corresponding columns
 
 **Machine learning models used:**
 * Two NLP models will be used (one model for prediction of the number of comments, one model for the average sentiment magnitude of the comments)
