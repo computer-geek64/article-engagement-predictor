@@ -39,7 +39,7 @@ Drop appropriate columns from each CSV with justification
 :heavy_check_mark:**Generation of Sentiment Column:**
 Run a sentiment analysis model that will generate the sentiment column in the articles dataset based on each comment body (in comments dataset). Use transformers sentiment model for each comment row with the comment text as input features. Add new column “average sentiment” in article csv which averages all the sentiment columns for comments which have the corresponding article ID. These sentiment values were previously calculated in the sentiment analysis model. 
 
-**Cleaned Kaggle Datasets after preprocessing and sentiment model output:**
+**Datasets after preprocessing and adding the sentiment column:**
 Insert Ashish and Sharath datasets here
 
 ## Prediction of Number of Words and Sentiment ##
