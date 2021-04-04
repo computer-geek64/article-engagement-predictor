@@ -32,7 +32,28 @@ Drop appropriate columns from each CSV with justification
   * Material = Split into 3 categories: News, Op-Ed, or Other
   * Keywords = The abstract is better suited for an NLP model to extract useful information rather than uncontextualized keywords
   * Publication Date = If we are looking to gain insight on an article about to be published, the date of past articles will not help us because we cannot use the date to understand why an article had a certain sentiment since we don’t know what events occurred around that date.
+* Comment Columns Drop Justification
+  * Drop everything except comment body and link ID. We only need to have the comment content as well as the corresponding article to generate a sentiment value based on the comment text. 
+  
+* Run PCA, extra trees, lasso, univariate to determine which to drop for more ambiguous features  
 
+**Sentiment Analysis Model**
+Run a sentiment analysis model that will generate the sentiment column in the articles dataset based on each comment body(in comment csv). Use transformers sentiment model for each comment row with the comment text as input features. 
+
+**Article Sentiment Proccessing**
+Add new column “average sentiment” in article csv which averages all the sentiment columns for comments which have the corresponding article ID. These sentiment values were previously calculated in the sentiment analysis model. 
+
+**Number of Comment Model**
+After midterm report - use numerical features and text features together(columns which were not dropped) as features to predict # of comments for a given new article. 
+
+**Sentiment Prediction Model**
+After midterm report - use numerical features and text features (including number of comments and not dropped columns) as features together to predict “average sentiment” for a new article. 
+
+**Final Input Calculation**
+For a given new article, run number of comments model first and use the predicted comment value as one of the input features into the sentiment prediction model to get predicted sentiment value. The engagement metric will then be calculated based on number of comments and predicted sentiment value.
+
+# Cleaned Kaggle Datasets after preprocessing and sentiment model output
+Insert Ashish and Sharath datasets here
 
 
 
