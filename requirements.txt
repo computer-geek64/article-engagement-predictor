@@ -2,3 +2,4 @@
 
 contractions >= 0.0.48
 word2number >= 1.1
+stop-words >= 2018.7.23
