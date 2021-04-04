@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 # text.py
 
-from word2number.w2n import word_to_num
 import contractions
+from word2number.w2n import word_to_num
 
 
 def clean_text(text):

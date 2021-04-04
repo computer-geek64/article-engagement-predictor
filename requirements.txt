@@ -1,0 +1,4 @@
+# requirements.txt
+
+contractions >= 0.0.48
+word2number >= 1.1
