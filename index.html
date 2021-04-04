@@ -30,36 +30,59 @@
 <li>Final output: Engagement metric (calculated through a weighted sum of the number of comments and the magnitude of the sentiment that the article is forecasted to receive)</li>
 </ul>
 <h1>
-<a id="methods" class="anchor" href="#methods" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Methods:</h1>
-<p><strong>Pre-processing:</strong></p>
+<a id="data" class="anchor" href="#data" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Data</h1>
+<p>Two CSV files from Kaggle, articles.csv and comments.csv. These are linked by link IDs which correspond to the info about articles and the individual comments corresponding to each comment.</p>
 <ul>
-<li>Eliminate rows that lack data for each feature (this is invalid data and should be discarded)</li>
-<li>Use a sentiment analysis natural language processing model to create an additional average sentiment magnitude column on the articles dataset for all of the corresponding columns</li>
-</ul>
-<p><strong>Machine learning models used:</strong></p>
-<ul>
-<li>Two NLP models will be used (one model for prediction of the number of comments, one model for the average sentiment magnitude of the comments)
-<ul>
-<li>Sentiment magnitude prediction uses the column we created in the preprocessing step</li>
-</ul>
-</li>
-<li>The number of comments and average sentiment magnitude are directly correlated to levels of user engagement</li>
-</ul>
-<p><strong>Post-processing:</strong></p>
-<ul>
-<li>The number of comments and average sentiment magnitude can be combined into a final engagement metric through a mathematical formula</li>
+<li>Article columns - newsdesk, section, subsection, material, headline, abstract, keyword, word count, publish date, number comments, link ID</li>
+<li>Comment columns - comment ID, status, user ID, flagged, trusted, comment body, link ID</li>
 </ul>
 <h1>
-<a id="potential-results" class="anchor" href="#potential-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Potential Results:</h1>
+<a id="project-flow--methods" class="anchor" href="#project-flow--methods" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Project Flow / Methods</h1>
+<h2>
+<a id="preprocessing" class="anchor" href="#preprocessing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Preprocessing</h2>
+<p><g-emoji class="g-emoji" alias="heavy_check_mark" fallback-src="https://github.gatech.edu/images/icons/emoji/unicode/2714.png">✔️</g-emoji><strong>Data Cleaning:</strong></p>
 <ul>
-<li>Number of comments that a potential published article could receive as well as the general sentiment towards that topic
+<li>Removing incomplete features that don’t have data points for every column</li>
+<li>Trim whitespace on raw text</li>
+<li>Expand contractions and similar constructs</li>
+<li>Lowercase all text, remove non-English characters</li>
+<li>Convert English number words to actual numbers</li>
+<li>Remove stopwords and words of length &lt;= 2 or 3</li>
+</ul>
+<p><g-emoji class="g-emoji" alias="heavy_check_mark" fallback-src="https://github.gatech.edu/images/icons/emoji/unicode/2714.png">✔️</g-emoji><strong>Feature Engineering:</strong>
+Drop appropriate columns from each CSV with justification</p>
 <ul>
-<li>These values could be combined to create an overall engagement metric that determines the strength of interactions that an article could generate</li>
+<li>
+<p>Article Columns Drop Justification</p>
+<ul>
+<li>Newsdesk = Section column is a greater encompassing feature for the article’s area</li>
+<li>Material = Drop every row of Material that has one of these: ['Interactive Feature', 'Obituary (Obit)', 'briefing', 'Letter'] as these are not news articles intended for engagement prediction</li>
+<li>Keywords = The abstract is better suited for an NLP model to extract useful information rather than uncontextualized keywords</li>
+<li>Publication Date = If we are looking to gain insight on an article about to be published, the date of past articles will not help us because we cannot use the date to understand why an article had a certain sentiment since we don’t know what events occurred around that date.</li>
 </ul>
 </li>
-<li>Classified groupings into different classes of articles based on topics</li>
-<li>A model with the ability to predict the number of comments for a given article with certain input features</li>
+<li>
+<p>Comment Columns Drop Justification</p>
+<ul>
+<li>Drop everything except comment body and link ID. We only need to have the comment content as well as the corresponding article to generate a sentiment value based on the comment text.</li>
 </ul>
+</li>
+<li>
+<p>Run PCA, extra trees, lasso, univariate to determine which to drop for more ambiguous features</p>
+</li>
+</ul>
+<p><g-emoji class="g-emoji" alias="heavy_check_mark" fallback-src="https://github.gatech.edu/images/icons/emoji/unicode/2714.png">✔️</g-emoji><strong>Generation of Sentiment Column:</strong>
+Run a sentiment analysis model that will generate the sentiment column in the articles dataset based on each comment body (in comments dataset). Use transformers sentiment model for each comment row with the comment text as input features. Add new column “average sentiment” in article csv which averages all the sentiment columns for comments which have the corresponding article ID. These sentiment values were previously calculated in the sentiment analysis model.</p>
+<p><strong>Cleaned Kaggle Datasets after preprocessing and sentiment model output:</strong>
+Insert Ashish and Sharath datasets here</p>
+<h2>
+<a id="prediction-of-number-of-words-and-sentiment" class="anchor" href="#prediction-of-number-of-words-and-sentiment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Prediction of Number of Words and Sentiment</h2>
+<p><strong>Number of Comments Model:</strong>
+After midterm report - use numerical features and text features together(columns which were not dropped) as features to predict # of comments for a given new article.</p>
+<p><strong>Sentiment Prediction Model:</strong>
+After midterm report - use numerical features and text features (including number of comments and not dropped columns) as features together to predict “average sentiment” for a new article.</p>
+<p><strong>Engagement Metric Calculation:</strong>
+For a given new article, run number of comments model first and use the predicted comment value as one of the input features into the sentiment prediction model to get predicted sentiment value. The engagement metric will then be calculated based on number of comments and predicted sentiment value.</p>
 <h1>
 <a id="discussion" class="anchor" href="#discussion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Discussion:</h1>
 <p>By analyzing and predicting the number of comments anticipated for an article, the publishers can determine the level of public interest in a given topic and can choose to follow up with corresponding related articles. Additionally, the sentiment analysis allows  the editors to determine how polarizing an article is, and potentially provide items such as blog posts to provide a forum for further public discussion. Low sentiment can tell the editor that perhaps the article should be revised to make it more engaging.</p>
