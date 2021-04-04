@@ -3,6 +3,7 @@
 
 import contractions
 from word2number.w2n import word_to_num
+from stop_words import get_stop_words
 
 
 def clean_text(text):
@@ -13,6 +14,13 @@ def clean_text(text):
     i = 0
     while i < len(words):
         try:
+            try:
+                float(words[i])
+                current_number.append(words[i])
+                words.pop(i)
+            except ValueError:
+                pass
+
             word_to_num(words[i])
             current_number.append(words[i])
             words.pop(i)
@@ -22,14 +30,18 @@ def clean_text(text):
                 prod = 1
                 while j < len(current_number):
                     try:
-                        float(current_number[j])
-                        prod *= int(current_number[j]) if current_number[j].isdecimal() else float(current_number[j])
+                        prod *= float(current_number[j])
                         current_number.pop(j)
                     except ValueError:
                         j += 1
-                words.insert(i, str(prod * word_to_num(' '.join(current_number))))
+                num = prod * word_to_num(' '.join(current_number))
+                words.insert(i, str(int(num) if num.is_integer() else num))
                 current_number.clear()
                 i += 1
+
+            if len(words[i]) <= 2 or words[i] in get_stop_words('en'):
+                words.pop(i)
+                continue
 
             i += 1
     else:
