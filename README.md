@@ -17,7 +17,7 @@ Two CSV files from Kaggle, articles.csv and comments.csv. These are linked by li
 * Comment columns - comment ID, status, user ID, flagged, trusted, comment body, link ID
 
 # Project Flow / Methods
-## Preprocessing ##
+:heavy_check_mark:## Preprocessing ##
 :heavy_check_mark:**Data Cleaning:**
 * Removing incomplete features that don’t have data points for every column
 * Trim whitespace on raw text
@@ -39,7 +39,7 @@ Drop appropriate columns from each CSV with justification
 :heavy_check_mark:**Generation of Sentiment Column:**
 Run a sentiment analysis model that will generate the sentiment column in the articles dataset based on each comment body (in comments dataset). Use transformers sentiment model for each comment row with the comment text as input features. Add new column “average sentiment” in article csv which averages all the sentiment columns for comments which have the corresponding article ID. These sentiment values were previously calculated in the sentiment analysis model. 
 
-**Datasets after preprocessing and adding the sentiment column:**
+:heavy_check_mark:**Datasets after preprocessing and adding the sentiment column:**
 Insert Ashish and Sharath datasets here
 
 ## Prediction of Number of Words and Sentiment ##
