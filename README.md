@@ -20,10 +20,10 @@ Two CSV files from Kaggle, articles.csv and comments.csv. These are linked by li
 **Data Cleaning**
 * Removing incomplete features that don’t have data points for every column
 * Trim whitespace on raw text
-* Expand contractions and similar constructs (there’s a library for this)
-* Lowercase all text, remove non-English characters  (there’s a library for this) **
-* Convert English number words to actual numbers (there’s a library for this)
-* Remove stopwords and words of length <= 2 or 3  (there’s a library for detecting stopwords)
+* Expand contractions and similar constructs 
+* Lowercase all text, remove non-English characters 
+* Convert English number words to actual numbers 
+* Remove stopwords and words of length <= 2 or 3
 
 **Feature Engineering**
 Drop appropriate columns from each CSV with justification
