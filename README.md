@@ -17,7 +17,8 @@ Two CSV files from Kaggle, articles.csv and comments.csv. These are linked by li
 * Comment columns - comment ID, status, user ID, flagged, trusted, comment body, link ID
 
 # Project Flow / Methods
-:heavy_check_mark:## Preprocessing ##
+## Preprocessing
+
 :heavy_check_mark:**Data Cleaning:**
 * Removing incomplete features that don’t have data points for every column
 * Trim whitespace on raw text
