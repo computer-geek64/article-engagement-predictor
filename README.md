@@ -17,7 +17,8 @@ Two CSV files from Kaggle, articles.csv and comments.csv. These are linked by li
 * Comment columns - comment ID, status, user ID, flagged, trusted, comment body, link ID
 
 # Project Flow / Methods
-:heavy_check_mark:**Data Cleaning**
+## Preprocessing ##
+:heavy_check_mark:**Data Cleaning:**
 * Removing incomplete features that don’t have data points for every column
 * Trim whitespace on raw text
 * Expand contractions and similar constructs 
@@ -25,7 +26,7 @@ Two CSV files from Kaggle, articles.csv and comments.csv. These are linked by li
 * Convert English number words to actual numbers 
 * Remove stopwords and words of length <= 2 or 3
 
-:heavy_check_mark:**Feature Engineering**
+:heavy_check_mark:**Feature Engineering:**
 Drop appropriate columns from each CSV with justification
 * Article Columns Drop Justification
   * Newsdesk = Section column is a greater encompassing feature for the article’s area
@@ -37,24 +38,21 @@ Drop appropriate columns from each CSV with justification
   
 * Run PCA, extra trees, lasso, univariate to determine which to drop for more ambiguous features  
 
-:heavy_check_mark:**Sentiment Analysis Model**
-Run a sentiment analysis model that will generate the sentiment column in the articles dataset based on each comment body(in comment csv). Use transformers sentiment model for each comment row with the comment text as input features. 
+:heavy_check_mark:**Generation of Sentiment Column:**
+Run a sentiment analysis model that will generate the sentiment column in the articles dataset based on each comment body (in comments dataset). Use transformers sentiment model for each comment row with the comment text as input features. Add new column “average sentiment” in article csv which averages all the sentiment columns for comments which have the corresponding article ID. These sentiment values were previously calculated in the sentiment analysis model. 
 
-**Article Sentiment Proccessing**
-Add new column “average sentiment” in article csv which averages all the sentiment columns for comments which have the corresponding article ID. These sentiment values were previously calculated in the sentiment analysis model. 
-
-**Number of Comment Model**
-After midterm report - use numerical features and text features together(columns which were not dropped) as features to predict # of comments for a given new article. 
-
-**Sentiment Prediction Model**
-After midterm report - use numerical features and text features (including number of comments and not dropped columns) as features together to predict “average sentiment” for a new article. 
-
-**Final Input Calculation**
-For a given new article, run number of comments model first and use the predicted comment value as one of the input features into the sentiment prediction model to get predicted sentiment value. The engagement metric will then be calculated based on number of comments and predicted sentiment value.
-
-# Cleaned Kaggle Datasets after preprocessing and sentiment model output
+**Cleaned Kaggle Datasets after preprocessing and sentiment model output:**
 Insert Ashish and Sharath datasets here
 
+## Prediction of Number of Words and Sentiment ##
+**Number of Comments Model:**
+After midterm report - use numerical features and text features together(columns which were not dropped) as features to predict # of comments for a given new article. 
+
+**Sentiment Prediction Model:**
+After midterm report - use numerical features and text features (including number of comments and not dropped columns) as features together to predict “average sentiment” for a new article. 
+
+**Engagement Metric Calculation:**
+For a given new article, run number of comments model first and use the predicted comment value as one of the input features into the sentiment prediction model to get predicted sentiment value. The engagement metric will then be calculated based on number of comments and predicted sentiment value.
 
 
 # Discussion:
