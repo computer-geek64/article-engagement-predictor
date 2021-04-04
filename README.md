@@ -11,16 +11,23 @@ Given various features of a New York Times article as inputs, the goal of our pr
 * Output of the second model: Forecasted average sentiment magnitude
 * Final output: Engagement metric (calculated through a weighted sum of the number of comments and the magnitude of the sentiment that the article is forecasted to receive)
 
+# Data
+Two CSV files from Kaggle, articles.csv and comments.csv. These are linked by link IDs which correspond to the info about articles and the individual comments corresponding to each comment. 
+* Article columns - newsdesk, section, subsection, material, headline, abstract, keyword, word count, publish date, number comments, link ID
+* Comment columns - comment ID, status, user ID, flagged, trusted, comment body, link ID
 
-# Methods:
-**Pre-processing:**
-* Eliminate rows that lack data for each feature (this is invalid data and should be discarded)
-* Use a sentiment analysis natural language processing model to create an additional average sentiment magnitude column on the articles dataset for all of the corresponding columns
+# Project Flow / Methods
+**Data Cleaning**
+* Removing incomplete features that don’t have data points for every column
+* Trim whitespace on raw text
+* Expand contractions and similar constructs (there’s a library for this)
+* Lowercase all text, remove non-English characters  (there’s a library for this) **
+* Convert English number words to actual numbers (there’s a library for this)
+* Remove stopwords and words of length <= 2 or 3  (there’s a library for detecting stopwords)
 
-**Machine learning models used:**
-* Two NLP models will be used (one model for prediction of the number of comments, one model for the average sentiment magnitude of the comments)
-  * Sentiment magnitude prediction uses the column we created in the preprocessing step
-* The number of comments and average sentiment magnitude are directly correlated to levels of user engagement
+**Feature Engineering**
+Drop appropriate columns from each CSV with justification
+
 
 
 
