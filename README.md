@@ -27,7 +27,11 @@ Two CSV files from Kaggle, articles.csv and comments.csv. These are linked by li
 
 **Feature Engineering**
 Drop appropriate columns from each CSV with justification
-
+* Article Columns Drop Justification
+  * Newsdesk = Section column is a greater encompassing feature for the article’s area
+  * Material = Split into 3 categories: News, Op-Ed, or Other
+  * Keywords = The abstract is better suited for an NLP model to extract useful information rather than uncontextualized keywords
+  * Publication Date = If we are looking to gain insight on an article about to be published, the date of past articles will not help us because we cannot use the date to understand why an article had a certain sentiment since we don’t know what events occurred around that date.
 
 
 
