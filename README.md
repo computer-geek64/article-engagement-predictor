@@ -22,16 +22,7 @@ Given various features of a New York Times article as inputs, the goal of our pr
   * Sentiment magnitude prediction uses the column we created in the preprocessing step
 * The number of comments and average sentiment magnitude are directly correlated to levels of user engagement
 
-**Post-processing:**
-* The number of comments and average sentiment magnitude can be combined into a final engagement metric through a mathematical formula
 
-
-# Potential Results:
-
-* Number of comments that a potential published article could receive as well as the general sentiment towards that topic
-  * These values could be combined to create an overall engagement metric that determines the strength of interactions that an article could generate
-* Classified groupings into different classes of articles based on topics
-* A model with the ability to predict the number of comments for a given article with certain input features
 
 
 # Discussion:
