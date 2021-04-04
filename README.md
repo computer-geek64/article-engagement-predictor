@@ -17,7 +17,7 @@ Two CSV files from Kaggle, articles.csv and comments.csv. These are linked by li
 * Comment columns - comment ID, status, user ID, flagged, trusted, comment body, link ID
 
 # Project Flow / Methods
-**Data Cleaning**
+:white_check_mark:**Data Cleaning**
 * Removing incomplete features that don’t have data points for every column
 * Trim whitespace on raw text
 * Expand contractions and similar constructs 
@@ -25,7 +25,7 @@ Two CSV files from Kaggle, articles.csv and comments.csv. These are linked by li
 * Convert English number words to actual numbers 
 * Remove stopwords and words of length <= 2 or 3
 
-**Feature Engineering**
+:white_check_mark:**Feature Engineering**
 Drop appropriate columns from each CSV with justification
 * Article Columns Drop Justification
   * Newsdesk = Section column is a greater encompassing feature for the article’s area
@@ -37,7 +37,7 @@ Drop appropriate columns from each CSV with justification
   
 * Run PCA, extra trees, lasso, univariate to determine which to drop for more ambiguous features  
 
-**Sentiment Analysis Model**
+:white_check_mark:**Sentiment Analysis Model**
 Run a sentiment analysis model that will generate the sentiment column in the articles dataset based on each comment body(in comment csv). Use transformers sentiment model for each comment row with the comment text as input features. 
 
 **Article Sentiment Proccessing**
