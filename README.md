@@ -35,7 +35,9 @@ Drop appropriate columns from each CSV with justification
   * Keywords = The abstract is better suited for an NLP model to extract useful information rather than uncontextualized keywords
   * Publication Date = If we are looking to gain insight on an article about to be published, the date of past articles will not help us because we cannot use the date to understand why an article had a certain sentiment since we don’t know what events occurred around that date.
 * Comment Columns Drop Justification
-  * Drop everything except comment body and link ID. We only need to have the comment content as well as the corresponding article to generate a sentiment value based on the comment text. 
+  * Drop everything except comment body and link ID. We only need to have the comment content as well as the corresponding article to generate a sentiment value based on the comment text. The link ID will not be used in actually building the model, but only for linking an article with its corresponding comments.
+  
+Initial tests of our project will use all the features listed above, since feature selection will be performed after the later parts of the project have been completed (building the models to predict the number of words and the sentiment). We plan to use the [Extra Trees Regressor's](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesRegressor.html) ability to fit an estimator and provide feature importances in order to select which features may be more or less relevant in our final model.    
   
 :heavy_check_mark:**Generation of Sentiment Column:**
 Run a sentiment analysis model that will generate the sentiment column in the articles dataset based on each comment body (in comments dataset). Use transformers sentiment model for each comment row with the comment text as input features. Add new column “average sentiment” in article csv which averages all the sentiment columns for comments which have the corresponding article ID. These sentiment values were previously calculated in the sentiment analysis model. 
@@ -50,6 +52,8 @@ After preprocessing, it becomes:
 > "30 white horses red hill first champ stamp stand still"
 
 which is more semantically useful for our model.
+
+
 
 ## Prediction of Number of Words and Sentiment ##
 **Number of Comments Model:**
