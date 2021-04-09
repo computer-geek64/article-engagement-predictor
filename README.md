@@ -12,7 +12,7 @@ Given various features of a New York Times article as inputs, the goal of our pr
 * Final output: Engagement metric (calculated through a weighted sum of the number of comments and the magnitude of the sentiment that the article is forecasted to receive)
 
 # Data
-Two CSV files from Kaggle, articles.csv and comments.csv. These are linked by link IDs which correspond to the info about articles and the individual comments corresponding to each comment. 
+Two CSV files from Kaggle, articles.csv and comments.csv. These are linked through unique IDs which correspond to the info about articles and the individual comments corresponding to each comment. 
 * Article columns - newsdesk, section, subsection, material, headline, abstract, keyword, word count, publish date, number comments, link ID
 * Comment columns - comment ID, status, user ID, flagged, trusted, comment body, link ID
 
@@ -41,11 +41,19 @@ Drop appropriate columns from each CSV with justification
 Run a sentiment analysis model that will generate the sentiment column in the articles dataset based on each comment body (in comments dataset). Use transformers sentiment model for each comment row with the comment text as input features. Add new column “average sentiment” in article csv which averages all the sentiment columns for comments which have the corresponding article ID. These sentiment values were previously calculated in the sentiment analysis model. 
 
 :heavy_check_mark:**Datasets after preprocessing and adding the sentiment column:**
-Insert Ashish and Sharath datasets here
+More than 90% of the dataset was found to still be usable for the predictions of the number of words and the sentiment. All of the preprocessing steps are robust in that they help standardize the dataset by removing or modifying anomalies (converting all numbers to digit form, removing non-English characters, removing less relevant words). By dropping features that are not directly relevant to the problem and sanitizing the dataset, we can ensure our model can make more useful predictions. A short example of our preprocessing capability is the input sentence:
+
+> "Thirty white horses, on a red hill. First they champ, then they stamp, then they stand still."
+
+After preprocessing, it becomes:
+
+> "30 white horses red hill first champ stamp stand still"
+
+which is more semantically useful for our model.
 
 ## Prediction of Number of Words and Sentiment ##
 **Number of Comments Model:**
-After midterm report - use numerical features and text features together(columns which were not dropped) as features to predict # of comments for a given new article. 
+After midterm report - use numerical features and text features together (columns which were not dropped) as features to predict # of comments for a given new article. 
 
 **Sentiment Prediction Model:**
 After midterm report - use numerical features and text features (including number of comments and not dropped columns) as features together to predict “average sentiment” for a new article. 
