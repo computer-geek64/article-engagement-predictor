@@ -34,8 +34,12 @@ def clean_text(text):
                         current_number.pop(j)
                     except ValueError:
                         j += 1
-                num = prod * word_to_num(' '.join(current_number))
-                words.insert(i, str(int(num) if num.is_integer() else num))
+
+                if current_number:
+                    num = prod * word_to_num(' '.join(current_number))
+                else:
+                    num = prod
+                words.insert(i, str(int(num) if type(num) == float and num.is_integer() else num))
                 current_number.clear()
                 i += 1
 
@@ -48,4 +52,4 @@ def clean_text(text):
         if current_number:
             words.append(str(word_to_num(' '.join(current_number))))
 
-    return ' '.join(words)
+    return ''.join(x for x in ' '.join(words) if x.isalnum() or x == ' ')

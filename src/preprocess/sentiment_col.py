@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+# sentiment_col.py
+
 from transformers import pipeline
 import pandas as pd
 
