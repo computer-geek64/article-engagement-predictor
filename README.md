@@ -73,7 +73,7 @@ By analyzing and predicting the number of comments anticipated for an article, t
 # Dataset:
 
 The dataset is too large (several gigabytes in size) to upload to the GitHub repository, in both its raw and preprocessed forms.
-Furthermore, it is bad practice to integrate immensely large files into version control systems, because the tree can expand at an exponential rate when merging and executing other complex Git actions.
+Furthermore, it is bad practice to integrate files of immense sizes into version control systems, because the commit graph can expand at an exponential rate when merging and executing other complex Git actions.
 
 Therefore, the actual dataset can be downloaded from Kaggle ([https://www.kaggle.com/benjaminawd/new-york-times-articles-comments-2020](https://www.kaggle.com/benjaminawd/new-york-times-articles-comments-2020)), and we demonstrated the main part of our preprocessing model in the preprocessing section above.
 
