@@ -31,7 +31,7 @@
 </ul>
 <h1>
 <a id="data" class="anchor" href="#data" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Data</h1>
-<p>Two CSV files from Kaggle, articles.csv and comments.csv. These are linked by link IDs which correspond to the info about articles and the individual comments corresponding to each comment.</p>
+<p>Two CSV files from Kaggle, articles.csv and comments.csv. These are linked through unique IDs which correspond to the info about articles and the individual comments corresponding to each comment.</p>
 <ul>
 <li>Article columns - newsdesk, section, subsection, material, headline, abstract, keyword, word count, publish date, number comments, link ID</li>
 <li>Comment columns - comment ID, status, user ID, flagged, trusted, comment body, link ID</li>
@@ -47,13 +47,12 @@
 <li>Expand contractions and similar constructs</li>
 <li>Lowercase all text, remove non-English characters</li>
 <li>Convert English number words to actual numbers</li>
-<li>Remove stopwords and words of length &lt;= 2 or 3</li>
+<li>Remove stopwords and words of length &lt;= 2</li>
 </ul>
 <p><g-emoji class="g-emoji" alias="heavy_check_mark" fallback-src="https://github.gatech.edu/images/icons/emoji/unicode/2714.png">✔️</g-emoji><strong>Feature Engineering:</strong>
 Drop appropriate columns from each CSV with justification</p>
 <ul>
-<li>
-<p>Article Columns Drop Justification</p>
+<li>Article Columns Drop Justification
 <ul>
 <li>Newsdesk = Section column is a greater encompassing feature for the article’s area</li>
 <li>Material = Drop every row of Material that has one of these: ['Interactive Feature', 'Obituary (Obit)', 'briefing', 'Letter'] as these are not news articles intended for engagement prediction</li>
@@ -61,24 +60,29 @@ Drop appropriate columns from each CSV with justification</p>
 <li>Publication Date = If we are looking to gain insight on an article about to be published, the date of past articles will not help us because we cannot use the date to understand why an article had a certain sentiment since we don’t know what events occurred around that date.</li>
 </ul>
 </li>
-<li>
-<p>Comment Columns Drop Justification</p>
+<li>Comment Columns Drop Justification
 <ul>
-<li>Drop everything except comment body and link ID. We only need to have the comment content as well as the corresponding article to generate a sentiment value based on the comment text.</li>
+<li>Drop everything except comment body and link ID. We only need to have the comment content as well as the corresponding article to generate a sentiment value based on the comment text. The link ID will not be used in actually building the model, but only for linking an article with its corresponding comments.</li>
 </ul>
 </li>
-<li>
-<p>Run PCA, extra trees, lasso, univariate to determine which to drop for more ambiguous features</p>
-</li>
 </ul>
+<p>Initial tests of our project will use all the features listed above, since feature selection will be performed after the later parts of the project have been completed (building the models to predict the number of words and the sentiment). We plan to use the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesRegressor.html">Extra Trees Regressor's</a> ability to fit an estimator and provide feature importances in order to select which features may be more or less relevant in our final model.</p>
 <p><g-emoji class="g-emoji" alias="heavy_check_mark" fallback-src="https://github.gatech.edu/images/icons/emoji/unicode/2714.png">✔️</g-emoji><strong>Generation of Sentiment Column:</strong>
-Run a sentiment analysis model that will generate the sentiment column in the articles dataset based on each comment body (in comments dataset). Use transformers sentiment model for each comment row with the comment text as input features. Add new column “average sentiment” in article csv which averages all the sentiment columns for comments which have the corresponding article ID. These sentiment values were previously calculated in the sentiment analysis model.</p>
-<p><strong>Cleaned Kaggle Datasets after preprocessing and sentiment model output:</strong>
-Insert Ashish and Sharath datasets here</p>
+We ran a sentiment analysis model that will generate the sentiment column in the articles dataset based on each comment body (in comments dataset). A <a href="https://huggingface.co/transformers/">transformers sentiment model</a> was used for each comment row with the comment text as input features. A new column “average comment sentiment” was added in the article dataset, which averages all the sentiment columns for the comments of that article.</p>
+<p><g-emoji class="g-emoji" alias="heavy_check_mark" fallback-src="https://github.gatech.edu/images/icons/emoji/unicode/2714.png">✔️</g-emoji><strong>Datasets after preprocessing and adding the sentiment column:</strong>
+More than 90% of the dataset was found to still be usable for the predictions of the number of words and the sentiment. All of the preprocessing steps are robust in that they help standardize the dataset by removing or modifying anomalies (converting all numbers to digit form, removing non-English characters, removing less relevant words). By dropping features that are not directly relevant to the problem and sanitizing the dataset, we can ensure our model can make more useful predictions. A short example of our preprocessing capability is the input sentence:</p>
+<blockquote>
+<p>"Thirty white horses, on a red hill. First they champ, then they stamp, then they stand still."</p>
+</blockquote>
+<p>After preprocessing, it becomes:</p>
+<blockquote>
+<p>"30 white horses red hill first champ stamp stand still"</p>
+</blockquote>
+<p>which is more semantically useful for our model.</p>
 <h2>
 <a id="prediction-of-number-of-words-and-sentiment" class="anchor" href="#prediction-of-number-of-words-and-sentiment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Prediction of Number of Words and Sentiment</h2>
 <p><strong>Number of Comments Model:</strong>
-After midterm report - use numerical features and text features together(columns which were not dropped) as features to predict # of comments for a given new article.</p>
+After midterm report - use numerical features and text features together (columns which were not dropped) as features to predict # of comments for a given new article.</p>
 <p><strong>Sentiment Prediction Model:</strong>
 After midterm report - use numerical features and text features (including number of comments and not dropped columns) as features together to predict “average sentiment” for a new article.</p>
 <p><strong>Engagement Metric Calculation:</strong>
@@ -88,7 +92,9 @@ For a given new article, run number of comments model first and use the predicte
 <p>By analyzing and predicting the number of comments anticipated for an article, the publishers can determine the level of public interest in a given topic and can choose to follow up with corresponding related articles. Additionally, the sentiment analysis allows  the editors to determine how polarizing an article is, and potentially provide items such as blog posts to provide a forum for further public discussion. Low sentiment can tell the editor that perhaps the article should be revised to make it more engaging.</p>
 <h1>
 <a id="dataset" class="anchor" href="#dataset" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dataset:</h1>
-<p><a href="https://www.kaggle.com/benjaminawd/new-york-times-articles-comments-2020">https://www.kaggle.com/benjaminawd/new-york-times-articles-comments-2020</a></p>
+<p>The dataset is too large (several gigabytes in size) to upload to the GitHub repository, in both its raw and preprocessed forms.
+Furthermore, it is bad practice to integrate files of immense sizes into version control systems, because the commit graph can expand at an exponential rate when merging and executing other complex Git actions.</p>
+<p>Therefore, the actual dataset can be downloaded from Kaggle (<a href="https://www.kaggle.com/benjaminawd/new-york-times-articles-comments-2020">https://www.kaggle.com/benjaminawd/new-york-times-articles-comments-2020</a>), and we demonstrated the main part of our preprocessing model in the preprocessing section above.</p>
 <h1>
 <a id="references" class="anchor" href="#references" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>References:</h1>
 <p>Tsagkias, M., Weerkamp, W., &amp; De Rijke, M. (2009, November). Predicting the volume of comments on online news stories. In Proceedings of the 18th ACM conference on Information and knowledge management (pp. 1765-1768).</p>
