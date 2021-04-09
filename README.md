@@ -25,7 +25,7 @@ Two CSV files from Kaggle, articles.csv and comments.csv. These are linked throu
 * Expand contractions and similar constructs 
 * Lowercase all text, remove non-English characters 
 * Convert English number words to actual numbers 
-* Remove stopwords and words of length <= 2 or 3
+* Remove stopwords and words of length <= 2
 
 :heavy_check_mark:**Feature Engineering:**
 Drop appropriate columns from each CSV with justification
