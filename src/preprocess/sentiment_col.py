@@ -12,7 +12,8 @@ def generate_sentiment_col(articles_path=os.path.join(os.path.dirname(os.path.di
     nlp = pipeline('sentiment-analysis')
 
     for row in comments.index:
-        result = nlp(comments.at[row, 'commentBody'])[0]
+        text = comments.at[row, 'commentBody']
+        result = nlp(str(text))[0]
         sentiment = abs(result['score'])
         comments.at[row, 'sentiment'] = sentiment
     for article_row in articles.index:
