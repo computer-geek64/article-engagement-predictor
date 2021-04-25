@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 # text.py
 
+import os
 import contractions
+import pandas as pd
 from word2number.w2n import word_to_num
 from stop_words import get_stop_words
 
@@ -21,9 +23,13 @@ def clean_text(text):
             except ValueError:
                 pass
 
-            word_to_num(words[i])
-            current_number.append(words[i])
-            words.pop(i)
+            if i < len(words):
+                try:
+                    word_to_num(words[i])
+                except IndexError:
+                    raise ValueError
+                current_number.append(words[i])
+                words.pop(i)
         except ValueError:
             if current_number:
                 j = 0
@@ -36,7 +42,10 @@ def clean_text(text):
                         j += 1
 
                 if current_number:
-                    num = prod * word_to_num(' '.join(current_number))
+                    try:
+                        num = prod * word_to_num(' '.join(current_number))
+                    except:
+                        num = prod
                 else:
                     num = prod
                 words.insert(i, str(int(num) if type(num) == float and num.is_integer() else num))
@@ -50,6 +59,33 @@ def clean_text(text):
             i += 1
     else:
         if current_number:
-            words.append(str(word_to_num(' '.join(current_number))))
+            try:
+                words.append(str(word_to_num(' '.join(current_number))))
+            except ValueError:
+                words.append(' '.join(current_number))
 
     return ''.join(x for x in ' '.join(words) if x.isalnum() or x == ' ')
+
+
+def preprocess_dataset_text():
+    articles_file = 'nyt-articles-2020-dropped.csv'
+    comments_file = 'nyt-comments-2020-sample-dropped.csv'
+    articles_df = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', articles_file))
+    comments_df = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', comments_file))
+
+    for column in articles_df.columns:
+        if articles_df[column].dtype == 'O' and column != 'uniqueID':
+            print(f'Column {column} of articles dataset')
+            articles_df[column] = articles_df[column].apply(clean_text)
+
+    articles_df.to_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', os.path.splitext(articles_file)[0] + '-cleaned.csv'), index=False)
+    del articles_df
+
+    print('Articles finished')
+
+    for column in comments_df.columns:
+        if comments_df[column].dtype == 'O' and column != 'articleID':
+            print(f'Column {column} of comments dataset')
+            comments_df[column] = comments_df[column].apply(clean_text)
+
+    comments_df.to_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', os.path.splitext(comments_file)[0] + '-cleaned.csv'), index=False)

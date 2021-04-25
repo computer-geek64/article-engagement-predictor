@@ -1,13 +1,12 @@
 #!/usr/bin/python3
 # features.py
 
+import os
 import pandas as pd
-from stop_words import get_stop_words
 
 
-# main function
 def delete_incomplete_columns(file, to_be_deleted=[], not_to_be_deleted=[], special=False):
-    data = pd.read_csv('../../data/' + file)
+    data = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', file))
 
     for tbd in to_be_deleted:
         del data[tbd]
@@ -22,14 +21,15 @@ def delete_incomplete_columns(file, to_be_deleted=[], not_to_be_deleted=[], spec
         unwanted = ['Interactive Feature', 'Obituary (Obit)', 'briefing', 'Letter']
         data = data[data['material'].isin(unwanted)]
 
-    data.to_csv('../../processed_data/complete-' + file)
+    data.to_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', os.path.splitext(file)[0] + '-dropped.csv'), index=False)
 
 
-if __name__ == '__main__':
+# main function
+def drop_features():
     # calling the function on articles
     tbd = ['newsdesk', 'keywords', 'pub_date']  # param2 columns we want to delete
     delete_incomplete_columns('nyt-articles-2020.csv', to_be_deleted=tbd, special=True)
 
-    # calling the function on articles
-    tb = ['commentBody', 'articleID']  # param2 columns we want to delete
-    delete_incomplete_columns('nyt-comments-2020.csv', not_to_be_deleted=tb)
+    # calling the function on comments
+    tbd = ['commentBody', 'articleID']  # param2 columns we want to delete
+    delete_incomplete_columns('nyt-comments-2020-sample.csv', not_to_be_deleted=tbd)
