@@ -5,6 +5,7 @@ import optuna
 import xgboost
 from sklearn import model_selection
 import pandas as pd
+import pickle
 
 
 iterative_params_and_accuracies = []
@@ -75,3 +76,6 @@ model, accuracy = generate_and_evaluate_model()
 print(accuracy)
 print(model.get_params())
 print(iterative_params_and_accuracies)
+if len(iterative_params_and_accuracies) > 0:
+    with open('params_accuracies.pkl', 'wb') as f:
+        pickle.dump(iterative_params_and_accuracies, f)
