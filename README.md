@@ -41,6 +41,7 @@ Additionally, we want to convert our text-based features to numerical representa
 For example, the frequencies of the "material" section shown in the first graph below indicates that the non News/Op-Ed articles are very low in frequency and thus were combined into a new material type. Similarly, the subsection column had more than half the articles with null values, and thus the column was dropped due to its insignificance.
 
 ![material](images/mat_freq_v_art_no.png)
+![subsection](images/subsection.png)
 
 :heavy_check_mark:**Generation of Sentiment Features:**
 We ran a sentiment analysis model that will generate the sentiment column in the articles dataset based on each comment body (in comments dataset). A [transformers sentiment model](https://huggingface.co/transformers/) was used for each comment row with the comment text as input features. This is a very simple model which  returns a single value per column row  gauging the sentiment feeling of each comment. A new column “average comment sentiment” was added in the article dataset, which for each article, represents the average of all sentiment values for the corresponding comments. This average comment sentiment column was scaled from -1 to 1 around an average of 0 for consistency across articles. 
