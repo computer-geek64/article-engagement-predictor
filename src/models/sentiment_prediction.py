@@ -1,14 +1,16 @@
 #!/usr/bin/python3
 # sentiment_prediction.py
 
+import os
 import optuna
 import xgboost
-from sklearn import model_selection
+from sklearn import model_selection, metrics
 import pandas as pd
 import pickle
 
 
 iterative_params_and_accuracies = []
+
 
 def xgb_objective(trial, X, y, estimator):
     n_estimators = trial.suggest_int('n_estimators', 40, 280, 40)
@@ -39,29 +41,30 @@ def optimize(estimator, X_train, X_val, y_train, y_val, timeout):
     estimator.set_params(**study.best_params)
 
 
-def generate_and_evaluate_model(data, optimize=False, timeout=300):
-    X = data.drop(labels='sentiment', axis=1)
-    y = data['sentiment']
+def generate_and_evaluate_model(dataset, hyperparameterization=False, timeout=300):
+    data = pd.read_csv(dataset)
+    X = data.drop(labels='avg_comment_sentiment_magnitude', axis=1)
+    y = data['avg_comment_sentiment_magnitude']
 
     # 70% train, 15% val, 15% test
     X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, test_size=0.15)
     X_train, X_val, y_train, y_val = model_selection.train_test_split(X_train, y_train, test_size=(0.15/0.85))
 
-    if optimize:
+    if hyperparameterization:
         model = xgboost.XGBRegressor()
         optimize(model, X_train, X_val, y_train, y_val, timeout)
     else:
         model = xgboost.XGBRegressor(n_estimators=100, max_depth=6, learning_rate=0.01)
         model.fit(X_train, y_train)
     predictions = model.predict(X_test)
-    accuracy = model_selection.roc_auc_score(y_test, predictions)
+    accuracy = metrics.mean_squared_error(y_test, predictions)
     return model, accuracy
 
 
 def graph_feature_model(model):
-    feature_importance = model.get_score(importance_type='weight')
+    feature_importance = model.get_booster().get_score(importance_type='weight')
     sort_features = sorted(feature_importance, key=lambda x: x[1])
-    items = sort_features.items()[:10]
+    items = sort_features[:10]
     keys = [i[0] for i in items]
     values = [i[1] for i in items]
     data = pd.DataFrame(data=values, index=keys, columns=["score"]).sort_values(by="score", ascending=False)
@@ -72,10 +75,11 @@ def graph_params_and_accuracies():
     pass
 
 
-model, accuracy = generate_and_evaluate_model()
+model, accuracy = generate_and_evaluate_model(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'nyt-articles-2020-final-dataset.csv'), hyperparameterization=False, timeout=10)
 print(accuracy)
 print(model.get_params())
 print(iterative_params_and_accuracies)
+graph_feature_model(model)
 if len(iterative_params_and_accuracies) > 0:
     with open('params_accuracies.pkl', 'wb') as f:
         pickle.dump(iterative_params_and_accuracies, f)
