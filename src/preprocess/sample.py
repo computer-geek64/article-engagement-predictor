@@ -5,7 +5,7 @@ import os
 import pandas as pd
 
 
-def get_proportional_comments_sample(percentage=0.2, articles_dataset=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'nyt-articles-2020-dropped.csv'), comments_dataset=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'nyt-comments-2020-dropped.csv')):
+def get_proportional_comments_sample(percentage=0.25, articles_dataset=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'nyt-articles-2020-dropped.csv'), comments_dataset=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'nyt-comments-2020-dropped.csv')):
     articles_df = pd.read_csv(articles_dataset)
     comments_df = pd.read_csv(comments_dataset)
 

@@ -37,7 +37,6 @@ def one_hot_encoding(articles_dataset):
             articles_df.at[article, 'material'] = 'material_other'
 
     # Keep News, Op-Ed, rename all others to other
-    material_one_hot = pd.get_dummies(articles_df['material'])
     articles_df = pd.concat([articles_df.drop(columns=['material']), pd.get_dummies(articles_df['material'])], axis=1)
     articles_df.to_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', articles_dataset), index=False)
 
@@ -62,7 +61,7 @@ def drop_features():
     delete_incomplete_columns('nyt-articles-2020.csv', to_be_deleted=tbd, special=True)
 
     # Run one-hot encoding on articles
-    # one_hot_encoding('nyt-articles-2020-dropped.csv')
+    one_hot_encoding('nyt-articles-2020-dropped.csv')
 
     # calling the function on comments
     tbd = ['commentBody', 'articleID']  # param2 columns we want to delete

@@ -73,7 +73,7 @@ def clean_text(text):
 
 def preprocess_dataset_text():
     articles_file = 'nyt-articles-2020-dropped.csv'
-    comments_file = 'nyt-comments-2020-dropped.csv'
+    comments_file = 'nyt-comments-2020-dropped-sample.csv'
     articles_df = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', articles_file))
     comments_df = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', comments_file))
 
