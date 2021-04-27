@@ -4,6 +4,7 @@
 import optuna
 import xgboost
 from sklearn import model_selection
+import pandas as pd
 
 
 def xgb_objective(trial, X, y, estimator):
@@ -27,14 +28,14 @@ def xgb_objective(trial, X, y, estimator):
     return accuracy
 
 
-def optimize(estimator, X_train, X_val, y_train, y_val):
+def optimize(estimator, X_train, X_val, y_train, y_val, timeout):
     estimator.fit(X_train, y_train)
     study = optuna.create_study(direction='maximize')  # maximize or minimize?
-    study.optimize(lambda trial: xgb_objective(trial, X_val, y_val, estimator))
+    study.optimize(lambda trial: xgb_objective(trial, X_val, y_val, estimator), timeout=timeout)
     estimator.set_params(**study.best_params)
 
 
-def generate_and_evaluate_model(data, optimize=False):
+def generate_and_evaluate_model(data, optimize=False, timeout=300):
     X = data.drop(labels='sentiment', axis=1)
     y = data['sentiment']
 
@@ -44,23 +45,23 @@ def generate_and_evaluate_model(data, optimize=False):
 
     if optimize:
         model = xgboost.XGBRegressor()
-        optimize(model, X_train, X_val, y_train, y_val)
+        optimize(model, X_train, X_val, y_train, y_val, timeout)
     else:
         model = xgboost.XGBRegressor(n_estimators=100, max_depth=6, learning_rate=0.01)
         model.fit(X_train, y_train)
     predictions = model.predict(X_test)
     accuracy = model_selection.roc_auc_score(y_test, predictions)
     return model, accuracy
+
+
 def graph_feature_model(model):
     feature_importance = model.get_score(importance_type='weight')
     sort_features = sorted(feature_importance, key=lambda x: x[1])
     items = sort_features.items()[:10]
     keys = [i[0] for i in items]
     values = [i[1] for i in items]
-    data = pd.DataFrame(data=values, index=keys, columns=[
-                        "score"]).sort_values(by="score", ascending=False)
+    data = pd.DataFrame(data=values, index=keys, columns=["score"]).sort_values(by="score", ascending=False)
     data.plot(kind='barh')
-
 
 
 model, accuracy = generate_and_evaluate_model()
