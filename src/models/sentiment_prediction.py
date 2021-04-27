@@ -51,6 +51,16 @@ def generate_and_evaluate_model(data, optimize=False):
     predictions = model.predict(X_test)
     accuracy = model_selection.roc_auc_score(y_test, predictions)
     return model, accuracy
+def graph_feature_model(model):
+    feature_importance = model.get_score(importance_type='weight')
+    sort_features = sorted(feature_importance, key=lambda x: x[1])
+    items = sort_features.items()[:10]
+    keys = [i[0] for i in items]
+    values = [i[1] for i in items]
+    data = pd.DataFrame(data=values, index=keys, columns=[
+                        "score"]).sort_values(by="score", ascending=False)
+    data.plot(kind='barh')
+
 
 
 model, accuracy = generate_and_evaluate_model()
