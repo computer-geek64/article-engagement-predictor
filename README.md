@@ -1,44 +1,104 @@
 # Introduction:
 
-The New York Times is an American newspaper that is widely regarded as one of the popular and well-established news sources in the world with over 130 Pulitzer prizes. Ranked 3rd in the US, it continues to publish about 150 articles per day, which users can read and comment on with their own views. Over the past few years, user engagement has steadily grown leading to stronger online opinions and the need to classify and measure the sort of engagement on articles is at an all-time high. As a rapidly evolving newspaper source, it is key for the New York Times to identify the most popular articles and attempt to predict readers’ critical responses. By predicting the public response, the newspaper can give more targeted articles which will draw in more readers and keep the public well informed and engaged about critical current events in the world. With deep polarization being a key issue in the United States, we decided to do our part and measure the quality of engagement, and the bias present within these comments.
+The New York Times is an American newspaper that is widely regarded as one of the popular and well-established news sources in the world. Over the past few years, user engagement has steadily grown leading to stronger online opinions as well as the need to classify and measure the sort of engagement on articles. By predicting the public response, the newspaper can give more targeted articles which will draw in more readers and keep the public well informed and engaged about critical current events in the world. To do so, we will use an open-source dataset of 16,000 New York Times articles and 5 million corresponding comments, with over 30 features to examine. 
 
 # Problem Definition:
 
-Given the comments of a New York Times article as inputs, with the size of the comments, sentiment, and a number of comments as features for each article, it is possible to generate an overall engagement metric, which can provide editors with necessary insight and feedback on their writing.
+Given various features of a New York Times article as inputs, the goal of our project is to generate an overall **engagement metric**. This engagement metric can provide editors with necessary insight and feedback on their writing to gauge the audience reaction before they publicly publish their article.
 
-* Article Features: headline, article newsdesk, article section, article length, keywords, abstract
-* Comment Features: comment/comment thread body, depth, comment length, create date == update date
-* Output of the model: Number of comments
-* Output of the sentiment analysis: Magnitude of the sentiment
-* Final output: Engagement metric (calculated by the number of comments, the magnitude of the sentiment, and the weighted sum of the magnitude of the sentiment of comment replies)
+* Article Features: headline, article newsdesk, article section, article length, keywords, abstract, etc
+* Output of the first model: Number of comments for the article 
+* Output of the second model: Forecasted average sentiment magnitude
+* Final output: Engagement metric (calculated through a weighted sum of the number of comments and the magnitude of the sentiment that the article is forecasted to receive)
+
+# Data
+Two CSV files from Kaggle, articles.csv and comments.csv. These are linked through unique IDs which correspond to the info about articles and the individual comments corresponding to each comment. 
+* Article columns - newsdesk, section, subsection, material, headline, abstract, keyword, word count, publish date, number comments, link ID
+* Comment columns - comment ID, status, user ID, flagged, trusted, comment body, link ID
+
+![material](images/ny_times.PNG)
+
+# Project Flow / Methods
+## Preprocessing
+
+:heavy_check_mark:**Data Cleaning:**
+* Removing incomplete features that don’t have data points for every column
+* Trim whitespace on raw text
+* Expand contractions and similar constructs 
+* Lowercase all text, remove non-English characters 
+* Convert English number words to actual numbers 
+* Remove stopwords and words of length <= 2
+
+:heavy_check_mark:**Feature Engineering:**
+Drop appropriate columns from each CSV with justification
+* Article Columns Drop Justification
+  * Newsdesk = Section column is a greater encompassing feature for the article’s area
+  * Material = Drop every row of Material that has one of these: ['Interactive Feature', 'Obituary (Obit)', 'briefing', 'Letter'] as these are not news articles intended for engagement prediction
+  * Keywords = The abstract is better suited for an NLP model to extract useful information rather than uncontextualized keywords
+  * Publication Date = If we are looking to gain insight on an article about to be published, the date of past articles will not help us because we cannot use the date to understand why an article had a certain sentiment since we don’t know what events occurred around that date.
+* Comment Columns Drop Justification
+  * Drop everything except comment body and link ID. We only need to have the comment content as well as the corresponding article to generate a sentiment value based on the comment text. The link ID will not be used in actually building the model, but only for linking an article with its corresponding comments. 
+Additionally, we want to convert our text-based features to numerical representations for the model to use. To do this, we represent the “material” feature using one-hot encoding. We first condense the material section into 3 main categories: News, Op-Ed, and Other (since the other remaining material sections have very few entries). When doing this, we add 3 new columns to the article data.
+
+  * For example, the frequencies of the "material" section shown in the first graph below indicates that the non News/Op-Ed articles are very low in frequency and thus were combined into a new material type. Similarly, the subsection column had more than half the articles with null values, and thus the column was dropped due to its insignificance.
+
+![material](images/mat_freq_v_art_no.png)
+![subsection](images/subsection.png)
+
+:heavy_check_mark:**Generation of Sentiment Features:**
+We ran a sentiment analysis model that will generate the sentiment column in the articles dataset based on each comment body (in comments dataset). A [transformers sentiment model](https://huggingface.co/transformers/) was used for each comment row with the comment text as input features. This is a very simple model which  returns a single value per column row  gauging the sentiment feeling of each comment. A new column “average comment sentiment” was added in the article dataset, which for each article, represents the average of all sentiment values for the corresponding comments. This average comment sentiment column was scaled from -1 to 1 around an average of 0 for consistency across articles. 
+
+:heavy_check_mark:**Converting Comments to a Numerical Representation using Word Embedding**
+With this section, we want to add numerical features which represent the context of a given article. This is so that for later models, we don’t have to train on both text and numerical features, but can instead train on the existing numerical features such as word count as well as the added numerical embedded features. To do this, we use a transformer model which takes in the two text features ‘headline’ and ‘abstract’ and outputs a vector of 768 features representing this text. This was accomplished using a [sentence transformer framework](https://www.sbert.net/docs/quickstart.html), Sentence-BERT, that uses the DistilBERT-base-uncased model that comes pretrained on a large dataset of sentences. Average pooling was performed to provide a vector of 768 word embeddings for a sentence of any size. Thus, each article in the article dataset will now have 768 more numerical features or columns.
 
 
-# Methods:
+:heavy_check_mark:**Datasets after preprocessing and adding the sentiment features:**
+All of the preprocessing steps are robust in that they help standardize the dataset by removing or modifying anomalies (converting all numbers to digit form, removing non-English characters, removing less relevant words). By dropping features that are not directly relevant to the problem and sanitizing the dataset, we can ensure our model can make more useful predictions. A short example of our preprocessing capability is the input sentence:
 
-Preprocessing:
+> "Thirty white horses, on a red hill. First they champ, then they stamp, then they stand still."
+
+After preprocessing, it becomes:
+
+> "30 white horses red hill first champ stamp stand still"
+
+which is more semantically useful for our model. When all these preprocessing measures were applied on the full dataset, articles.csv and comments.csv were reduced to
+
+Articles_cleaned.csv -> Insert
+Comments_cleaned.csv -> insert
 
 
-# Potential Results:
 
-* Number of comments that a potential published article could receive as well as the general sentiment towards that topic
-  * These values could be combined to create an overall engagement metric that determines the strength of interactions that an article could generate
-* Classified groupings into different classes of articles based on topics
-  * Within each group, average number of comments
-* The model with the ability to predict the number of comments if an article with the input features is selected
+
+
+## Prediction of Number of Words and Sentiment ##
+**Number of Comments Model:**
+ The goal of this model is to train on existing articles with every single numerical feature in order to predict the number of comments. These features include word count, average sentiment, the 768 features from word embedding, and the one hot encoding for material. The type of model used was an extreme gradient boost decision tree ([XGBoost](https://xgboost.readthedocs.io/en/latest/)) with 70% train data, 15% validation, and 15% test. We use Bayesian hyperparameter optimization for number of estimators, max depth, and learning rate. We can use this tuned model to predict the number of comments for a given article with all these input features. 
+
+**Sentiment Prediction Model:**
+The goal and structure of the sentiment prediction model is very similar to the number of comments model. Once again, we train on the existing articles with all the numerical features but this time to predict the sentiment response. We once again use an XGBoost model with similar data divisions along with hyperparameter optimization. However, the difference is that there is an additional input feature column number of comments which we are also using to train sentiment on.  
+
+**Engagement Metric Calculation:**
+Note that at this stage, we are equipped to be given a new article with a headline and abstract and run these series of models to predict user response. We can use the number of comments model to in turn train the sentiment prediction model, which will give us a sentiment value which is an estimate of how the target audience will view the article. A final engagement metric column will then be calculated based on the number of comments and predicted sentiment value which is the final indicator of the success of an article meant to be tested on. 
+
+# Results:
+After the entire process is complete, we end up with a newly calculated Engagement Metric for each article. This number represents how much traction each article generates. When we want to take a new unpublished article and determine what its engagement might be, we use our 2 models and newly generated columns to predict the number of comments and the sentiment of the article.
+
 
 # Discussion:
 
-By analyzing and predicting the number of comments anticipated for a given article, the publishers can determine the level of public interest in a given topic and can choose to follow up with corresponding related articles. In addition, the sentiment analysis will allow the editors to determine how polarizing an article is, and potentially provide items such as blog posts to provide a forum for further public discussion. Note that all of this analysis hinges on the dataset’s given inputs which allow us to classify into article categories, and then breakdown the respective comments.
+By analyzing and predicting the number of comments anticipated for an article, the publishers can determine the level of public interest in a given topic and can choose to follow up with corresponding related articles. Additionally, the sentiment analysis allows  the editors to determine how polarizing an article is, and potentially provide items such as blog posts to provide a forum for further public discussion. Low sentiment can tell the editor that perhaps the article should be revised to make it more engaging.
 
 # Dataset:
 
-[https://www.kaggle.com/benjaminawd/new-york-times-articles-comments-2020](https://www.kaggle.com/benjaminawd/new-york-times-articles-comments-2020)
+The dataset is too large (several gigabytes in size) to upload to the GitHub repository, in both its raw and preprocessed forms.
+Furthermore, it is bad practice to integrate files of immense sizes into version control systems, because the commit graph can expand at an exponential rate when merging and executing other complex Git actions.
+
+Therefore, the actual dataset can be downloaded from Kaggle ([https://www.kaggle.com/benjaminawd/new-york-times-articles-comments-2020](https://www.kaggle.com/benjaminawd/new-york-times-articles-comments-2020)), and we demonstrated the main part of our preprocessing model in the preprocessing section above.
 
 # References:
 
-Article from people who also performed sentiment analysis on NYT news articles, but for Financial Signal Prediction:
-[https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.476.5693&rep=rep1&type=pdf](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.476.5693&rep=rep1&type=pdf)
+Tsagkias, M., Weerkamp, W., & De Rijke, M. (2009, November). Predicting the volume of comments on online news stories. In Proceedings of the 18th ACM conference on Information and knowledge management (pp. 1765-1768).
 
-Predicting the volume of comments on online news stories:
-[https://dl.acm.org/doi/abs/10.1145/1645953.1646225?casa_token=6uYvAaNOCnwAAAAA%3AzNjh1At3MQRrbf5q28ZTgFcfvZsmlrOy831jKJqZVZcGZCJS3nPd3A1mzLHeRQ-F0BUVR1HonWcfLg](https://dl.acm.org/doi/abs/10.1145/1645953.1646225?casa_token=6uYvAaNOCnwAAAAA%3AzNjh1At3MQRrbf5q28ZTgFcfvZsmlrOy831jKJqZVZcGZCJS3nPd3A1mzLHeRQ-F0BUVR1HonWcfLg)
+Schumaker, R. P., Zhang, Y., Huang, C. N., & Chen, H. (2012). Evaluating sentiment in financial news articles. Decision Support Systems, 53(3), 458-464.
 
+Althaus, S. L., & Tewksbury, D. (2002). Agenda Setting and the “New” News: Patterns of Issue Importance Among Readers of the Paper and Online Versions of the New York Times. Communication Research, 29(2), 180–207. https://doi.org/10.1177/0093650202029002004
