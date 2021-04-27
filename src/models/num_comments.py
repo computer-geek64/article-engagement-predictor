@@ -4,7 +4,8 @@
 import optuna
 import xgboost
 from sklearn import model_selection
-import pandas as pd 
+import pandas as pd
+
 
 def xgb_objective(trial, X, y, estimator):
     n_estimators = trial.suggest_int('n_estimators', 40, 280, 40)
