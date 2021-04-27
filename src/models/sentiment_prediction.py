@@ -7,6 +7,8 @@ from sklearn import model_selection
 import pandas as pd
 
 
+iterative_params_and_accuracies = []
+
 def xgb_objective(trial, X, y, estimator):
     n_estimators = trial.suggest_int('n_estimators', 40, 280, 40)
     max_depth = trial.suggest_int('max_depth', 2, 12, 2)
@@ -18,6 +20,7 @@ def xgb_objective(trial, X, y, estimator):
     }
     estimator.set_params(**params)
     accuracy = model_selection.cross_val_score(estimator, X, y).mean()
+    iterative_params_and_accuracies.append([params, accuracy])
 
     # Try without this and use if accuracy is negative
     '''
@@ -63,6 +66,9 @@ def graph_feature_model(model):
     data = pd.DataFrame(data=values, index=keys, columns=["score"]).sort_values(by="score", ascending=False)
     data.plot(kind='barh')
 
+
+def graph_params_and_accuracies():
+    pass
 
 model, accuracy = generate_and_evaluate_model()
 print(accuracy)
