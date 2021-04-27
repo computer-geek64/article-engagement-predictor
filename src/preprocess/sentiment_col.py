@@ -8,7 +8,7 @@ from transformers import pipeline
 from sklearn.preprocessing import StandardScaler
 
 
-def generate_sentiment_col(articles_path=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'nyt-articles-2020-dropped-cleaned.csv'), comments_path=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'nyt-comments-2020-sample-dropped-sample-cleaned.csv')):
+def generate_sentiment_col(articles_path=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'nyt-articles-2020-dropped-cleaned.csv'), comments_path=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'nyt-comments-2020-dropped-sample-cleaned.csv')):
     articles_df = pd.read_csv(articles_path)
     comments_df = pd.read_csv(comments_path)
     nlp = pipeline('sentiment-analysis', device=0)
