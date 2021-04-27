@@ -16,6 +16,8 @@ Two CSV files from Kaggle, articles.csv and comments.csv. These are linked throu
 * Article columns - newsdesk, section, subsection, material, headline, abstract, keyword, word count, publish date, number comments, link ID
 * Comment columns - comment ID, status, user ID, flagged, trusted, comment body, link ID
 
+![material](images/ny_times.png)
+
 # Project Flow / Methods
 ## Preprocessing
 
