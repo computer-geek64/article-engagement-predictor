@@ -14,6 +14,7 @@ def generate_sentiment_col(articles_path=os.path.join(os.path.dirname(os.path.di
     nlp = pipeline('sentiment-analysis', device=0)
 
     # Run NLP sentiment analysis on each comment
+    comments_df['sentiment_magnitude'] = 0
     batch_size = 100
     for batch in range(0, len(comments_df), batch_size):
         results = nlp(list(map(str, comments_df['commentBody'][batch:batch + batch_size].tolist())), truncation=True)
