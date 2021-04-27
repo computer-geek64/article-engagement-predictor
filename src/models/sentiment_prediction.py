@@ -48,7 +48,8 @@ def generate_and_evaluate_model(data, optimize=False):
     else:
         model = xgboost.XGBRegressor(n_estimators=100, max_depth=6, learning_rate=0.01)
         model.fit(X_train, y_train)
-    accuracy = model_selection.cross_val_score(model, X_test, y_test)
+    predictions = model.predict(X_test)
+    accuracy = model_selection.roc_auc_score(y_test, predictions)
     return model, accuracy
 
 
