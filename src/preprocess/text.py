@@ -9,7 +9,11 @@ from stop_words import get_stop_words
 
 
 def clean_text(text):
-    cleaned_text = contractions.fix(text.strip()).lower()
+    try:
+        cleaned_text = contractions.fix(text.strip()).lower()
+    except IndexError:
+        cleaned_text = text.strip().lower()
+
     words = [x for x in cleaned_text.split(' ') if x]
 
     current_number = []
@@ -69,23 +73,19 @@ def clean_text(text):
 
 def preprocess_dataset_text():
     articles_file = 'nyt-articles-2020-dropped.csv'
-    comments_file = 'nyt-comments-2020-sample-dropped.csv'
+    comments_file = 'nyt-comments-2020-dropped.csv'
     articles_df = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', articles_file))
     comments_df = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', comments_file))
 
     for column in articles_df.columns:
         if articles_df[column].dtype == 'O' and column != 'uniqueID':
-            print(f'Column {column} of articles dataset')
             articles_df[column] = articles_df[column].apply(clean_text)
 
     articles_df.to_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', os.path.splitext(articles_file)[0] + '-cleaned.csv'), index=False)
     del articles_df
 
-    print('Articles finished')
-
     for column in comments_df.columns:
         if comments_df[column].dtype == 'O' and column != 'articleID':
-            print(f'Column {column} of comments dataset')
             comments_df[column] = comments_df[column].apply(clean_text)
 
     comments_df.to_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', os.path.splitext(comments_file)[0] + '-cleaned.csv'), index=False)
