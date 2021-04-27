@@ -36,6 +36,7 @@
 <li>Article columns - newsdesk, section, subsection, material, headline, abstract, keyword, word count, publish date, number comments, link ID</li>
 <li>Comment columns - comment ID, status, user ID, flagged, trusted, comment body, link ID</li>
 </ul>
+<p><img src="images/ny_times.PNG" alt="material"></p>
 <h1>
 <a id="project-flow--methods" class="anchor" href="#project-flow--methods" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Project Flow / Methods</h1>
 <h2>
@@ -62,15 +63,24 @@ Drop appropriate columns from each CSV with justification</p>
 </li>
 <li>Comment Columns Drop Justification
 <ul>
-<li>Drop everything except comment body and link ID. We only need to have the comment content as well as the corresponding article to generate a sentiment value based on the comment text. The link ID will not be used in actually building the model, but only for linking an article with its corresponding comments.</li>
+<li>
+<p>Drop everything except comment body and link ID. We only need to have the comment content as well as the corresponding article to generate a sentiment value based on the comment text. The link ID will not be used in actually building the model, but only for linking an article with its corresponding comments.
+Additionally, we want to convert our text-based features to numerical representations for the model to use. To do this, we represent the “material” feature using one-hot encoding. We first condense the material section into 3 main categories: News, Op-Ed, and Other (since the other remaining material sections have very few entries). When doing this, we add 3 new columns to the article data.</p>
+</li>
+<li>
+<p>For example, the frequencies of the "material" section shown in the first graph below indicates that the non News/Op-Ed articles are very low in frequency and thus were combined into a new material type. Similarly, the subsection column had more than half the articles with null values, and thus the column was dropped due to its insignificance.</p>
+</li>
 </ul>
 </li>
 </ul>
-<p>Initial tests of our project will use all the features listed above, since feature selection will be performed after the later parts of the project have been completed (building the models to predict the number of words and the sentiment). We plan to use the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesRegressor.html">Extra Trees Regressor's</a> ability to fit an estimator and provide feature importances in order to select which features may be more or less relevant in our final model.</p>
-<p><g-emoji class="g-emoji" alias="heavy_check_mark" fallback-src="https://github.gatech.edu/images/icons/emoji/unicode/2714.png">✔️</g-emoji><strong>Generation of Sentiment Column:</strong>
-We ran a sentiment analysis model that will generate the sentiment column in the articles dataset based on each comment body (in comments dataset). A <a href="https://huggingface.co/transformers/">transformers sentiment model</a> was used for each comment row with the comment text as input features. A new column “average comment sentiment” was added in the article dataset, which averages all the sentiment columns for the comments of that article.</p>
-<p><g-emoji class="g-emoji" alias="heavy_check_mark" fallback-src="https://github.gatech.edu/images/icons/emoji/unicode/2714.png">✔️</g-emoji><strong>Datasets after preprocessing and adding the sentiment column:</strong>
-More than 90% of the dataset was found to still be usable for the predictions of the number of words and the sentiment. All of the preprocessing steps are robust in that they help standardize the dataset by removing or modifying anomalies (converting all numbers to digit form, removing non-English characters, removing less relevant words). By dropping features that are not directly relevant to the problem and sanitizing the dataset, we can ensure our model can make more useful predictions. A short example of our preprocessing capability is the input sentence:</p>
+<p><img src="images/mat_freq_v_art_no.png" alt="material">
+<img src="images/subsection.png" alt="subsection"></p>
+<p><g-emoji class="g-emoji" alias="heavy_check_mark" fallback-src="https://github.gatech.edu/images/icons/emoji/unicode/2714.png">✔️</g-emoji><strong>Generation of Sentiment Features:</strong>
+We ran a sentiment analysis model that will generate the sentiment column in the articles dataset based on each comment body (in comments dataset). A <a href="https://huggingface.co/transformers/">transformers sentiment model</a> was used for each comment row with the comment text as input features. This is a very simple model which  returns a single value per column row  gauging the sentiment feeling of each comment. A new column “average comment sentiment” was added in the article dataset, which for each article, represents the average of all sentiment values for the corresponding comments. This average comment sentiment column was scaled from -1 to 1 around an average of 0 for consistency across articles.</p>
+<p><g-emoji class="g-emoji" alias="heavy_check_mark" fallback-src="https://github.gatech.edu/images/icons/emoji/unicode/2714.png">✔️</g-emoji><strong>Converting Comments to a Numerical Representation using Word Embedding</strong>
+With this section, we want to add numerical features which represent the context of a given article. This is so that for later models, we don’t have to train on both text and numerical features, but can instead train on the existing numerical features such as word count as well as the added numerical embedded features. To do this, we use a transformer model which takes in the two text features ‘headline’ and ‘abstract’ and outputs a vector of 768 features representing this text. This was accomplished using a <a href="https://www.sbert.net/docs/quickstart.html">sentence transformer framework</a>, Sentence-BERT, that uses the DistilBERT-base-uncased model that comes pretrained on a large dataset of sentences. Average pooling was performed to provide a vector of 768 word embeddings for a sentence of any size. Thus, each article in the article dataset will now have 768 more numerical features or columns.</p>
+<p><g-emoji class="g-emoji" alias="heavy_check_mark" fallback-src="https://github.gatech.edu/images/icons/emoji/unicode/2714.png">✔️</g-emoji><strong>Datasets after preprocessing and adding the sentiment features:</strong>
+All of the preprocessing steps are robust in that they help standardize the dataset by removing or modifying anomalies (converting all numbers to digit form, removing non-English characters, removing less relevant words). By dropping features that are not directly relevant to the problem and sanitizing the dataset, we can ensure our model can make more useful predictions. A short example of our preprocessing capability is the input sentence:</p>
 <blockquote>
 <p>"Thirty white horses, on a red hill. First they champ, then they stamp, then they stand still."</p>
 </blockquote>
@@ -78,15 +88,20 @@ More than 90% of the dataset was found to still be usable for the predictions of
 <blockquote>
 <p>"30 white horses red hill first champ stamp stand still"</p>
 </blockquote>
-<p>which is more semantically useful for our model.</p>
+<p>which is more semantically useful for our model. When all these preprocessing measures were applied on the full dataset, articles.csv and comments.csv were reduced to</p>
+<p>Articles_cleaned.csv -&gt; Insert
+Comments_cleaned.csv -&gt; insert</p>
 <h2>
 <a id="prediction-of-number-of-words-and-sentiment" class="anchor" href="#prediction-of-number-of-words-and-sentiment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Prediction of Number of Words and Sentiment</h2>
 <p><strong>Number of Comments Model:</strong>
-After midterm report - use numerical features and text features together (columns which were not dropped) as features to predict # of comments for a given new article.</p>
+The goal of this model is to train on existing articles with every single numerical feature in order to predict the number of comments. These features include word count, average sentiment, the 768 features from word embedding, and the one hot encoding for material. The type of model used was an extreme gradient boost decision tree (<a href="https://xgboost.readthedocs.io/en/latest/">XGBoost</a>) with 70% train data, 15% validation, and 15% test. We use Bayesian hyperparameter optimization for number of estimators, max depth, and learning rate. We can use this tuned model to predict the number of comments for a given article with all these input features.</p>
 <p><strong>Sentiment Prediction Model:</strong>
-After midterm report - use numerical features and text features (including number of comments and not dropped columns) as features together to predict “average sentiment” for a new article.</p>
+The goal and structure of the sentiment prediction model is very similar to the number of comments model. Once again, we train on the existing articles with all the numerical features but this time to predict the sentiment response. We once again use an XGBoost model with similar data divisions along with hyperparameter optimization. However, the difference is that there is an additional input feature column number of comments which we are also using to train sentiment on.</p>
 <p><strong>Engagement Metric Calculation:</strong>
-For a given new article, run number of comments model first and use the predicted comment value as one of the input features into the sentiment prediction model to get predicted sentiment value. The engagement metric will then be calculated based on number of comments and predicted sentiment value.</p>
+Note that at this stage, we are equipped to be given a new article with a headline and abstract and run these series of models to predict user response. We can use the number of comments model to in turn train the sentiment prediction model, which will give us a sentiment value which is an estimate of how the target audience will view the article. A final engagement metric column will then be calculated based on the number of comments and predicted sentiment value which is the final indicator of the success of an article meant to be tested on.</p>
+<h1>
+<a id="results" class="anchor" href="#results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Results:</h1>
+<p>After the entire process is complete, we end up with a newly calculated Engagement Metric for each article. This number represents how much traction each article generates. When we want to take a new unpublished article and determine what its engagement might be, we use our 2 models and newly generated columns to predict the number of comments and the sentiment of the article.</p>
 <h1>
 <a id="discussion" class="anchor" href="#discussion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Discussion:</h1>
 <p>By analyzing and predicting the number of comments anticipated for an article, the publishers can determine the level of public interest in a given topic and can choose to follow up with corresponding related articles. Additionally, the sentiment analysis allows  the editors to determine how polarizing an article is, and potentially provide items such as blog posts to provide a forum for further public discussion. Low sentiment can tell the editor that perhaps the article should be revised to make it more engaging.</p>
