@@ -19,10 +19,11 @@ def delete_incomplete_columns(file, to_be_deleted=[], not_to_be_deleted=[], spec
 
     if special:
         unwanted = ['Interactive Feature', 'Obituary (Obit)', 'briefing', 'Letter']
-        data = data[data['material'].isin(unwanted)]
+        indexnums = data[(data['material'] == ('Interactive Feature' or 'Obituary (Obit)' or 'briefing' or 'Letter'))].index
+        data.drop(indexnums, inplace = True)
 
     data.to_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', os.path.splitext(file)[0] + '-dropped.csv'), index=False)
-
+    
 
 # main function
 def drop_features():
