@@ -74,3 +74,4 @@ def graph_params_and_accuracies():
 model, accuracy = generate_and_evaluate_model()
 print(accuracy)
 print(model.get_params())
+print(iterative_params_and_accuracies)
