@@ -61,7 +61,7 @@ After preprocessing, it becomes:
 
 > "30 white horses red hill first champ stamp stand still"
 
-which is more semantically useful for our model. When all these preprocessing measures were applied on the full dataset, articles.csv and comments.csv were reduced to
+which is more semantically useful for our model. When all these preprocessing measures were applied on the full dataset, articles.csv and comments.csv were reduced to:
 
 [`nyt-articles-2020-final-dataset.csv`](https://drive.google.com/file/d/1S2wB77Xs9i4D7ABly4Q7gDEGjmDEQ6yh/view)
 
