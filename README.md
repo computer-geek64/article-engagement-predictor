@@ -85,9 +85,9 @@ After the entire process is complete, we end up with a newly calculated Engageme
 
 **Number of Comments Model:**
 We will break down the trained XGBoost model results into four major points. 
-1) When trained on the dataset with no hyperparameter optimization and default params of (n_estimators = 100, max_depth= 6, learning_rate: 0.01), the MSE for the testing data portion is 173802.452(percent error is 14.40%). 
+1) When trained on the dataset with no hyperparameter optimization and default params of (n_estimators = 100, max_depth= 6, learning_rate: 0.01), the MSE for the testing data portion is 173802.452 (percent error is 14.40%). 
 
-2) When trained with Bayesian hyperparameter optimization, the optimal parameters were (n_estimators = 80, max_depth= 10, learning_rate: 0.025968120043171675), resulting in an improved MSE of 171335.70(percent error 14.19%), or an improvement of 1.41928% in MSE using hyperparameters. 
+2) When trained with Bayesian hyperparameter optimization, the optimal parameters were (n_estimators = 80, max_depth= 10, learning_rate: 0.025968120043171675), resulting in an improved MSE of 171335.70 (percent error 14.19%), or an improvement of 1.41928% in MSE using hyperparameters. 
 
 3) Note that the model's ability is obviously best shown by it performing on a sample article with input parameters, and seeing how many comments it outputs. To keep this consistent, we will have one article with the following input features and pass it into both these models as well as the final engagement metric calculation to show how both models combine to provide estimated feedback. Our example article will have  
 * Material type = News
@@ -96,8 +96,7 @@ We will break down the trained XGBoost model results into four major points.
 * Abstract = 'sudden breach 2 leading liberals democratic primary race disheartened fear provide advantage partys moderate candidates'  
 The tuned XGBoost model with the optimal parameters predicts the number of comments for this article as 157. 
 
-
-4) Find the most relevant features which determine how the number of comments is predicted. This will provide New York Times relevant metrics to see which variables to change to alter future number of comments. 
+The graph below shows the feature importances of the number of comments model. As is visible, the number of comments of the article and the word count of the article are the most important features in predicting the number of comments. The features material_op-ed and material_news are also important features in the model, and they represent articles that are classified as either "News" or "Op-Ed"s by the New York Times. It's also visible that emb_feature57, which is one of the 768 word embeddings, is one of the less important features for the number of comments model. 
 
 ![comment_feature_importance](images/num_comments_graph.png)
 
@@ -110,7 +109,7 @@ Once again, break down the trained model into similar 4 points.
 
 3) We will continue from the sample political article from the previous section. Passing this in along with the number of comments predicted of 157 gives a predicted sentiment of 0.0185 .
 
-4) Once again, find the most relevant features which determine how sentiment is predicted. 
+The graph below shows the feature importances of the sentiment prediction model. As is visible, the number of comments of the article and the word count of the article are the most important features in predicting the number of comments. 
 
 ![sentiment_feature_importance](images/sentiment_prediction_graph.png)
 
