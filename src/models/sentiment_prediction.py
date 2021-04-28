@@ -58,8 +58,7 @@ def generate_and_evaluate_model(dataset, hyperparameterization=False, timeout=30
         model = xgboost.XGBRegressor()
         optimize(model, X_train, X_val, y_train, y_val, timeout)
     else:
-        model = xgboost.XGBRegressor(
-            n_estimators=100, max_depth=6, learning_rate=0.01)
+        model = xgboost.XGBRegressor(n_estimators=100, max_depth=6, learning_rate=0.01)
         model.fit(X_train, y_train)
     predictions = model.predict(X_test)
     accuracy = metrics.mean_squared_error(y_test, predictions)
@@ -67,13 +66,6 @@ def generate_and_evaluate_model(dataset, hyperparameterization=False, timeout=30
 
 
 def graph_feature_model(model):
-    # feature_importance = model.get_booster().get_score(importance_type='weight')
-    # sort_features = sorted(feature_importance, key=lambda x: x[1])
-    # items = sort_features[:10]
-    # values = [feature_importance[i] for i in items]
-    # data = pd.DataFrame(data=values, index=items, columns=["score"]).sort_values(by="score", ascending=False)
-    # data.plot(kind='barh')
-    # plt.show()
     feature_importance = model.get_booster().get_score(importance_type='weight')
     print(len(feature_importance))
     sort_features = sorted(feature_importance, key=lambda x: x[1])
@@ -100,12 +92,11 @@ def graph_params_and_accuracies():
     pass
 
 
-model, accuracy = generate_and_evaluate_model(
-    'C:/Users/Nisha/Downloads/nyt-articles-2020-final-dataset.csv', hyperparameterization=False, timeout=10)
+model, accuracy = generate_and_evaluate_model(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'nyt-articles-2020-final-dataset.csv'), hyperparameterization=True, timeout=600)
 print(accuracy)
 print(model.get_params())
 print(iterative_params_and_accuracies)
 graph_feature_model(model)
 if len(iterative_params_and_accuracies) > 0:
-    with open('params_accuracies.pkl', 'wb') as f:
+    with open('params_accuracies_sentiment.pkl', 'wb') as f:
         pickle.dump(iterative_params_and_accuracies, f)

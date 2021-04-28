@@ -64,10 +64,23 @@ def generate_and_evaluate_model(dataset, hyperparameterization=False, timeout=30
 
 def graph_feature_model(model):
     feature_importance = model.get_booster().get_score(importance_type='weight')
+    print(len(feature_importance))
     sort_features = sorted(feature_importance, key=lambda x: x[1])
-    items = sort_features[:10]
+    print(len(sort_features))
+    fexists = False
+    items = []
+    for feature in sort_features:
+        if len(items) < 8:
+            if 'emb_feature' in feature:
+                if not fexists:
+                    items.append(feature)
+                    fexists = True
+            else:
+                items.append(feature)
+
     values = [feature_importance[i] for i in items]
-    data = pd.DataFrame(data=values, index=items, columns=["score"]).sort_values(by="score", ascending=False)
+    data = pd.DataFrame(data=values, index=items, columns=[
+        "score"]).sort_values(by="score", ascending=False)
     data.plot(kind='barh')
     plt.show()
 
@@ -76,10 +89,10 @@ def graph_params_and_accuracies():
     pass
 
 
-model, accuracy = generate_and_evaluate_model(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'nyt-articles-2020-final-dataset.csv'), hyperparameterization=False, timeout=10)
+model, accuracy = generate_and_evaluate_model(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'nyt-articles-2020-final-dataset.csv'), hyperparameterization=True, timeout=600)
 print(accuracy)
 print(model.get_params())
 print(iterative_params_and_accuracies)
 if len(iterative_params_and_accuracies) > 0:
-    with open('params_accuracies.pkl', 'wb') as f:
+    with open('params_accuracies_comments.pkl', 'wb') as f:
         pickle.dump(iterative_params_and_accuracies, f)
