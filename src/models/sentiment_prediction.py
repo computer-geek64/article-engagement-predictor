@@ -92,11 +92,14 @@ def graph_params_and_accuracies():
     pass
 
 
-model, accuracy = generate_and_evaluate_model(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'nyt-articles-2020-final-dataset.csv'), hyperparameterization=True, timeout=600)
-print(accuracy)
-print(model.get_params())
-print(iterative_params_and_accuracies)
-graph_feature_model(model)
-if len(iterative_params_and_accuracies) > 0:
-    with open('params_accuracies_sentiment.pkl', 'wb') as f:
-        pickle.dump(iterative_params_and_accuracies, f)
+if __name__ == '__main__':
+    model, accuracy = generate_and_evaluate_model(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'nyt-articles-2020-final-dataset.csv'), hyperparameterization=True, timeout=600)
+    print(accuracy)
+    print(model.get_params())
+    print(iterative_params_and_accuracies)
+    graph_feature_model(model)
+    if len(iterative_params_and_accuracies) > 0:
+        # with open('params_accuracies_sentiment.pkl', 'wb') as f:
+        #     pickle.dump(iterative_params_and_accuracies, f)
+        with open(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'sentiment_prediction_model.pkl'), 'wb') as file:
+            pickle.dump(model, file)
