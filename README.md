@@ -125,7 +125,7 @@ The engagement metric is the final qualitative result intended for the New York 
 * Word count = 1010
 * Headline = 'Dear Jets: There's Hope to Be Found in a Winless Season. Take It From Someone Who Knows.'
 * Abstract = 'For one thing, you are leading the race for the top draft pick. But seriously, even finishing at 0-16 can yield valuable resilience. So says Hue Jackson, who coached the winless 2017 Cleveland Browns.'
-The models ouptut predicted comments as 12 , predicted sentiment as 0.179 , and the final engagement metric as 2.1700. Note that this sample article has a slightly lower expected engagement response than the political article. 
+The model's ouptut predicted there to be 12 comments, predicted sentiment to be 0.179, so the final engagement metric as 2.1700. Note that this sample article has a slightly lower expected engagement response than the political article. 
 
 # Discussion:
 
