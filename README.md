@@ -89,7 +89,13 @@ We will break down the trained XGBoost model results into four major points.
 
 2) When trained with Bayesian hyperparameter optimization, the optimal parameters were (n_estimators = 80, max_depth= 10, learning_rate: 0.025968120043171675), resulting in an improved MSE of 171335.70(percent error 14.19%), or an improvement of 1.41928% in MSE using hyperparameters. 
 
-3) Note that the model's ability is obviously best shown by it performing on a sample article with input parameters, and seeing how many comments it outputs. To keep this consistent, we will have one article with the following input features and pass it into both these models as well as the final engagement metric calculation to show how both models combine to provide estimated feedback. 
+3) Note that the model's ability is obviously best shown by it performing on a sample article with input parameters, and seeing how many comments it outputs. To keep this consistent, we will have one article with the following input features and pass it into both these models as well as the final engagement metric calculation to show how both models combine to provide estimated feedback. Our example article will have  
+* Material type = News
+* Word count = 1107
+* Headline = 'mom dad fighting leftwing democrats lament sanderswarren rift'
+* Abstract = 'sudden breach 2 leading liberals democratic primary race disheartened fear provide advantage partys moderate candidates'  
+The tuned XGBoost model with the optimal parameters predicts the number of comments for this article as 157. 
+
 
 4) Find the most relevant features which determine how the number of comments is predicted. This will provide New York Times relevant metrics to see which variables to change to alter future number of comments. 
 
@@ -102,7 +108,7 @@ Once again, break down the trained model into similar 4 points.
 
 2) When trained with Bayesian hyperparameter optimization, the optimal parameters were (n_estimators = 200, max_depth= 4, learning_rate: 0.09111868005033476), resulting in an improved MSE of 0.20(percent error 10%), or an improvement of 15% in MSE using hyperparameters. 
 
-3) We will continue from the sample article "" from the previous section. Passing this in along with the number of comments predicted of ___ gives a predicted sentiment of ___ .
+3) We will continue from the sample article "" from the previous section. Passing this in along with the number of comments predicted of 157 gives a predicted sentiment of 0.0185 .
 
 4) Once again, find the most relevant features which determine how sentiment is predicted. 
 
@@ -111,7 +117,7 @@ Once again, break down the trained model into similar 4 points.
 Note that number of words still is a very clear defining feature, but it is interesting that the predicted number of comments feature from the past model actually surpasses it in terms of importance. 
 
 **Engagement Metric Calculation:**
-
+The engagement metric is the final qualitative result intended for the New York Times writers which allows insight into how successful and well received an article is. Obviously, the basis for such a metric would be the public reviewal(number of comments), as well as the general tone of such reviews or articles(sentiment). Thus, the engagement metric calculation is given to the number of comments predicted multiplied by the predicted sentiment of such a model. Note that this final engagement metric is simply a combination of both our XGBoost model predictions. For our main article example, the final article engagement metric is calculated to thus be 157 x 0.0185 = 2.9045. 
 
 # Discussion:
 
