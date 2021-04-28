@@ -100,7 +100,7 @@ The graph below shows the feature importances of the number of comments model. A
 
 ![comment_feature_importance](images/num_comments_graph.png)
 
-The 3D graph below shows the varying accuracies of the number of comments model as its hyperparameters were tuned. Two of the most significant tuned hyperparameters are plotted below, the # of estimators and the max depth of the XGBoost model. Over the optimization process, which was allocated 10 minutes to optimize the hyperparameters, given various parious of tested values for those 2 parameters, their corresponding accuracies have been plotted. 
+The 3D graph below shows the varying accuracies of the number of comments model as its hyperparameters were tuned. Two of the most significant tuned hyperparameters are plotted below, the # of estimators and the max depth of the XGBoost model. Over the optimization process, which was allocated 10 minutes to optimize the hyperparameters, given various pairs of tested values for those 2 parameters, their corresponding accuracies have been plotted. 
 
 ![comment_feature_importance](images/num_of_comments_3d.png)
 
