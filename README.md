@@ -94,7 +94,7 @@ We will break down the trained XGBoost model results into four major points.
 * Abstract = 'The sudden breach between the two leading liberals in the Democratic primary race has disheartened those who fear it could provide an advantage to the party’s moderate candidates.'  
 The tuned XGBoost model with the optimal parameters predicts the number of comments for this article as 157. 
 
-The graph below shows the feature importances of the number of comments model. As is visible, the number of comments of the article and the word count of the article are the most important features in predicting the number of comments. The features material_op-ed and material_news are also important features in the model, and they represent articles that are classified as either "News" or "Op-Ed"s by the New York Times. It's also visible that emb_feature57, which is one of the 768 word embeddings, is one of the less important features for the number of comments model. 
+The graph below shows the feature importances of the number of comments model. As is visible, the sentiment magnitude of the article and the word count of the article are the most important features in predicting the number of comments. The features material_op-ed and material_news are also important features in the model, and they represent articles that are classified as either "News" or "Op-Ed"s by the New York Times. It's also visible that emb_feature57, which is one of the 768 word embeddings, is one of the less important features for the number of comments model. 
 
 ![comment_feature_importance](images/num_comments_graph.png)
 
