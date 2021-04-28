@@ -93,6 +93,9 @@ All of the preprocessing steps are robust in that they help standardize the data
 <p><a href="https://drive.google.com/file/d/1VUxMTKd7UgP-4SXd0T1vjqywWKWMuxEh/view"><code>nyt-comments-2020-dropped-sample-cleaned-sentiment.csv</code></a></p>
 <h2>
 <a id="prediction-of-number-of-words-and-sentiment" class="anchor" href="#prediction-of-number-of-words-and-sentiment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Prediction of Number of Words and Sentiment</h2>
+<p><strong>Workflow Diagram:</strong>
+The data processing and prediction pipeline is shown below to better illustrate the steps taken to reach our predictions.<br>
+<img src="images/flow.png" alt="flow"></p>
 <p><strong>Number of Comments Model:</strong>
 The goal of this model is to train on existing articles with every single numerical feature in order to predict the number of comments. These features include word count, average sentiment, the 768 features from word embedding, and the one hot encoding for material. The type of model used was an extreme gradient boost decision tree (<a href="https://xgboost.readthedocs.io/en/latest/">XGBoost</a>) with 70% train data, 15% validation, and 15% test. We use <a href="https://optuna.readthedocs.io/en/stable/">Bayesian hyperparameter optimization</a> for number of estimators, max depth, and learning rate. We can use this tuned model to predict the number of comments for a given article with all these input features.</p>
 <p><strong>Sentiment Prediction Model:</strong>
@@ -122,7 +125,7 @@ We will break down the trained XGBoost model results into four major points.</p>
 <li>Abstract = 'The sudden breach between the two leading liberals in the Democratic primary race has disheartened those who fear it could provide an advantage to the party’s moderate candidates.'<br>
 The tuned XGBoost model with the optimal parameters predicts the number of comments for this article as 157.</li>
 </ul>
-<p>The graph below shows the feature importances of the number of comments model. As is visible, the number of comments of the article and the word count of the article are the most important features in predicting the number of comments. The features material_op-ed and material_news are also important features in the model, and they represent articles that are classified as either "News" or "Op-Ed"s by the New York Times. It's also visible that emb_feature57, which is one of the 768 word embeddings, is one of the less important features for the number of comments model.</p>
+<p>The graph below shows the feature importances of the number of comments model. As is visible, the sentiment magnitude of the article and the word count of the article are the most important features in predicting the number of comments. The features material_op-ed and material_news are also important features in the model, and they represent articles that are classified as either "News" or "Op-Ed"s by the New York Times. It's also visible that emb_feature57, which is one of the 768 word embeddings, is one of the less important features for the number of comments model.</p>
 <p><img src="images/num_comments_graph.png" alt="comment_feature_importance"></p>
 <p>The 3D graph below shows the varying accuracies of the number of comments model as its hyperparameters were tuned. Two of the most significant tuned hyperparameters are plotted below, the # of estimators and the max depth of the XGBoost model. Over the optimization process, which was allocated 10 minutes to optimize the hyperparameters, given various pairs of tested values for those 2 parameters, their corresponding mean squared error values have been plotted.</p>
 <p><img src="images/num_of_comments_3d.png" alt="comment_feature_importance"></p>
