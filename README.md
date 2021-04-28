@@ -72,7 +72,7 @@ Comments_cleaned.csv -> insert
 
 ## Prediction of Number of Words and Sentiment ##
 **Number of Comments Model:**
- The goal of this model is to train on existing articles with every single numerical feature in order to predict the number of comments. These features include word count, average sentiment, the 768 features from word embedding, and the one hot encoding for material. The type of model used was an extreme gradient boost decision tree ([XGBoost](https://xgboost.readthedocs.io/en/latest/)) with 70% train data, 15% validation, and 15% test. We use Bayesian hyperparameter optimization for number of estimators, max depth, and learning rate. We can use this tuned model to predict the number of comments for a given article with all these input features. 
+ The goal of this model is to train on existing articles with every single numerical feature in order to predict the number of comments. These features include word count, average sentiment, the 768 features from word embedding, and the one hot encoding for material. The type of model used was an extreme gradient boost decision tree ([XGBoost](https://xgboost.readthedocs.io/en/latest/)) with 70% train data, 15% validation, and 15% test. We use [Bayesian hyperparameter optimization](https://optuna.readthedocs.io/en/stable/) for number of estimators, max depth, and learning rate. We can use this tuned model to predict the number of comments for a given article with all these input features. 
 
 **Sentiment Prediction Model:**
 The goal and structure of the sentiment prediction model is very similar to the number of comments model. Once again, we train on the existing articles with all the numerical features but this time to predict the sentiment response. We once again use an XGBoost model with similar data divisions along with hyperparameter optimization. However, the difference is that there is an additional input feature column number of comments which we are also using to train sentiment on.  
@@ -82,6 +82,32 @@ Note that at this stage, we are equipped to be given a new article with a headli
 
 # Results:
 After the entire process is complete, we end up with a newly calculated Engagement Metric for each article. This number represents how much traction each article generates. When we want to take a new unpublished article and determine what its engagement might be, we use our 2 models and newly generated columns to predict the number of comments and the sentiment of the article.
+**Number of Comments Model:**
+We will break down the trained XGBoost model results into four major points. 
+1) When trained on the dataset with no hyperparameter optimization and default params of (n_estimators = 100, max_depth= 6, learning_rate: 0.01), the MSE for the testing data portion is 173802.452(percent error is 14.40%). 
+
+2) When trained with Bayesian hyperparameter optimization, the optimal parameters were (n_estimators = 80, max_depth= 10, learning_rate: 0.025968120043171675), resulting in an improved MSE of 171335.70(percent error 14.19%), or an improvement of 1.41928% in MSE using hyperparameters. 
+
+3) Note that the model's ability is obviously best shown by it performing on a sample article with input parameters, and seeing how many comments it outputs. To keep this consistent, we will have one article with the following input features and pass it into both these models as well as the final engagement metric calculation to show how both models combine to provide estimated feedback. 
+
+4) Find the most relevant features which determine how the number of comments is predicted. This will provide New York Times relevant metrics to see which variables to change to alter future number of comments. 
+
+![comment_feature_importance](images/num_comments_graph.png)
+
+
+**Sentiment Prediction Model:**
+Once again, break down the trained model into similar 4 points. 
+1) When trained on the dataset(including predicted number of comments) with no hyperparameter optimization and default params of (n_estimators = 100, max_depth= 6, learning_rate: 0.01), the MSE for the testing data portion is 0.23(percent error is 11.5%). 
+
+2) When trained with Bayesian hyperparameter optimization, the optimal parameters were (n_estimators = 200, max_depth= 4, learning_rate: 0.09111868005033476), resulting in an improved MSE of 0.20(percent error 10%), or an improvement of 15% in MSE using hyperparameters. 
+
+3) We will continue from the sample article "" from the previous section. Passing this in along with the number of comments predicted of ___ gives a predicted sentiment of ___ .
+
+4) Once again, find the most relevant features which determine how sentiment is predicted. 
+
+![sentiment_feature_importance](images/sentiment_prediction_graph.png)
+
+**Engagement Metric Calculation:**
 
 
 # Discussion:
