@@ -32,17 +32,17 @@ def generate_sentiment_col(articles_path=os.path.join(os.path.dirname(os.path.di
     comments_df['sentiment_magnitude'] = sentiments.reshape((sentiments.shape[0],))
 
     articles = {}
-    comments_df = []
+    comments = []
     for article in articles_df.index:
         articles[articles_df.at[article, 'uniqueID']] = article
-        comments_df.append([])
+        comments.append([])
 
     for comment in comments_df.index:
-        comments_df[articles[comments_df.at[comment, 'articleID']]].append(comment)
+        comments[articles[comments_df.at[comment, 'articleID']]].append(comment)
 
     for article in articles_df.index:
-        article_comments = comments_df.iloc[comments_df[article]]['sentiment_magnitude'].tolist()
-        average_article_comments_sentiment = (sum(article_comments['sentiment_magnitude']) / len(article_comments)) if len(article_comments) > 0 else 0
+        article_comments = comments_df.iloc[comments[article]]['sentiment_magnitude'].tolist()
+        average_article_comments_sentiment = (sum(article_comments) / len(article_comments)) if len(article_comments) > 0 else 0
         articles_df.at[article, 'avg_comment_sentiment_magnitude'] = average_article_comments_sentiment
 
     articles_df.to_csv(os.path.splitext(articles_path)[0] + '-sentiment.csv', index=False)
