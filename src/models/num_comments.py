@@ -93,6 +93,7 @@ model, accuracy = generate_and_evaluate_model(os.path.join(os.path.dirname(os.pa
 print(accuracy)
 print(model.get_params())
 print(iterative_params_and_accuracies)
+graph_feature_model(model)
 if len(iterative_params_and_accuracies) > 0:
     with open('params_accuracies_comments.pkl', 'wb') as f:
         pickle.dump(iterative_params_and_accuracies, f)
