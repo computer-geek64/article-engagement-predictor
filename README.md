@@ -139,6 +139,13 @@ By analyzing and predicting the number of comments anticipated for an article, t
 
 Through the course of this project, we have used transformers models as well as two XGBoost models in order to attempt to accurately predict viewer engagement for any given article with a header and abstract. This tool would be incredibly useful for not only New York Times, but theoretically any other newspaper in order to determine which target articles would bring the most success. By passing articles through the pipeline described in the project above, and validifying the models do indeed predict engagement with acceptable loss as shown in results, we have effectively created a way for NYT to visualize response to articles before publishing. 
 
+# Contributions:
+* Ashish - preprocessed data, constructed whole preprocessing/data pipeline and streamlined it for efficiency
+* Varun - built the two XGBoost models and did preprocessing using ML, provided ideas for data preprocessing
+* Sharath - preprocessed all data, did background research about the problem
+* Nishant - created word embeddings for all textual data, helped develop data pipeline for preprocessing + ML models
+* Yash - provided ideas for data preprocessing, created data visualizations, identified background research about the dataset and which features to use
+
 
 # References:
 
