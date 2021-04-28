@@ -108,6 +108,8 @@ Once again, break down the trained model into similar 4 points.
 
 ![sentiment_feature_importance](images/sentiment_prediction_graph.png)
 
+Note that number of words still is a very clear defining feature, but it is interesting that the predicted number of comments feature from the past model actually surpasses it in terms of importance. 
+
 **Engagement Metric Calculation:**
 
 
