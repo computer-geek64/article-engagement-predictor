@@ -2,11 +2,12 @@
 # num_comments.py
 
 import os
+import pickle
 import optuna
 import xgboost
-from sklearn import model_selection, metrics
 import pandas as pd
-import pickle
+from matplotlib import pyplot as plt
+from sklearn import model_selection, metrics
 
 
 iterative_params_and_accuracies = []
@@ -65,17 +66,17 @@ def graph_feature_model(model):
     feature_importance = model.get_booster().get_score(importance_type='weight')
     sort_features = sorted(feature_importance, key=lambda x: x[1])
     items = sort_features[:10]
-    keys = [i[0] for i in items]
-    values = [i[1] for i in items]
-    data = pd.DataFrame(data=values, index=keys, columns=["score"]).sort_values(by="score", ascending=False)
+    values = [feature_importance[i] for i in items]
+    data = pd.DataFrame(data=values, index=items, columns=["score"]).sort_values(by="score", ascending=False)
     data.plot(kind='barh')
+    plt.show()
 
 
 def graph_params_and_accuracies():
     pass
 
 
-model, accuracy = generate_and_evaluate_model(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'nyt-articles-2020-final-dataset.csv'), hyperparameterization=False, timeout=0)
+model, accuracy = generate_and_evaluate_model(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'nyt-articles-2020-final-dataset.csv'), hyperparameterization=False, timeout=10)
 print(accuracy)
 print(model.get_params())
 print(iterative_params_and_accuracies)
