@@ -69,9 +69,10 @@ which is more semantically useful for our model. When all these preprocessing me
 
 
 ## Prediction of Number of Words and Sentiment ##
-**Workflow Diagram**
+**Workflow Diagram:**
 The data processing and prediction pipeline is shown below to better illustrate the steps taken to reach our predictions.\
 ![flow](images/flow.png)
+
 **Number of Comments Model:**
  The goal of this model is to train on existing articles with every single numerical feature in order to predict the number of comments. These features include word count, average sentiment, the 768 features from word embedding, and the one hot encoding for material. The type of model used was an extreme gradient boost decision tree ([XGBoost](https://xgboost.readthedocs.io/en/latest/)) with 70% train data, 15% validation, and 15% test. We use [Bayesian hyperparameter optimization](https://optuna.readthedocs.io/en/stable/) for number of estimators, max depth, and learning rate. We can use this tuned model to predict the number of comments for a given article with all these input features. 
 
