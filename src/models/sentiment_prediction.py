@@ -63,13 +63,30 @@ def generate_and_evaluate_model(dataset, hyperparameterization=False, timeout=30
 
 
 def graph_feature_model(model):
+    # feature_importance = model.get_booster().get_score(importance_type='weight')
+    # sort_features = sorted(feature_importance, key=lambda x: x[1])
+    # items = sort_features[:10]
+    # values = [feature_importance[i] for i in items]
+    # data = pd.DataFrame(data=values, index=items, columns=["score"]).sort_values(by="score", ascending=False)
+    # data.plot(kind='barh')
+    # plt.show()
     feature_importance = model.get_booster().get_score(importance_type='weight')
     sort_features = sorted(feature_importance, key=lambda x: x[1])
-    items = sort_features[:10]
+    fexists = False
+    items = []
+    for feature in sort_features:
+        if len(items) < 5:
+            if 'emb_feature' in feature:
+                if not fexists:
+                    items.append(feature)
+                    fexists = True
+            else:
+                items.append(feature)
+
     values = [feature_importance[i] for i in items]
-    data = pd.DataFrame(data=values, index=items, columns=["score"]).sort_values(by="score", ascending=False)
+    data = pd.DataFrame(data=values, index=items, columns=[
+        "score"]).sort_values(by="score", ascending=False)
     data.plot(kind='barh')
-    plt.show()
 
 
 def graph_params_and_accuracies():
