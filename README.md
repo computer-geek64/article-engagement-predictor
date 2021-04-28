@@ -100,6 +100,10 @@ The graph below shows the feature importances of the number of comments model. A
 
 ![comment_feature_importance](images/num_comments_graph.png)
 
+The 3D graph below shows the varying accuracies of the number of comments model as its hyperparameters were tuned. Two of the most significant tuned hyperparameters are plotted below, the # of estimators and the max depth of the XGBoost model. Over the optimization process, which was allocated 10 minutes to optimize the hyperparameters, given various parious of tested values for those 2 parameters, their corresponding accuracies have been plotted. 
+
+![comment_feature_importance](images/num_of_comments_3d.png)
+
 
 **Sentiment Prediction Model:**
 Once again, break down the trained model into similar 4 points. 
@@ -109,11 +113,13 @@ Once again, break down the trained model into similar 4 points.
 
 3) We will continue from the sample political article from the previous section. Passing this in along with the number of comments predicted of 157 gives a predicted sentiment of 0.0185 .
 
-The graph below shows the feature importances of the sentiment prediction model. As is visible, the number of comments of the article and the word count of the article are the most important features in predicting the number of comments. 
+The graph below shows the feature importances of the sentiment prediction model. As is visible, the number of comments of the article and the word count of the article are the most important features in predicting the number of comments. Note that number of words still is a very clear defining feature, but it is interesting that the predicted number of comments feature from the past model actually surpasses it in terms of importance. 
 
 ![sentiment_feature_importance](images/sentiment_prediction_graph.png)
 
-Note that number of words still is a very clear defining feature, but it is interesting that the predicted number of comments feature from the past model actually surpasses it in terms of importance. 
+The 3D graph below shows the varying accuracies of the number of comments model as its hyperparameters were tuned. Two of the most significant tuned hyperparameters are plotted below, the # of estimators and the max depth of the XGBoost model. Over the optimization process, which was allocated 10 minutes to optimize the hyperparameters, given various parious of tested values for those 2 parameters, their corresponding accuracies have been plotted. 
+
+![comment_feature_importance](images/Sentiment_Graph_3d.png)
 
 **Engagement Metric Calculation:**
 The engagement metric is the final qualitative result intended for the New York Times writers which allows insight into how successful and well received an article is. Obviously, the basis for such a metric would be the public reviewal(number of comments), as well as the general tone of such reviews or articles(sentiment). Thus, the engagement metric calculation is given to the number of comments predicted multiplied by the predicted sentiment of such a model. Note that this final engagement metric is simply a combination of both our XGBoost model predictions. For our main article example, the final article engagement metric is calculated to thus be 157 x 0.0185 = 2.9045. For a side by side comparison of our final product, run another sample article with the following criteria to see how it compares. This new article will have the fields  
