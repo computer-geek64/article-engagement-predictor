@@ -108,7 +108,7 @@ Once again, break down the trained model into similar 4 points.
 
 2) When trained with Bayesian hyperparameter optimization, the optimal parameters were (n_estimators = 200, max_depth= 4, learning_rate: 0.09111868005033476), resulting in an improved MSE of 0.20(percent error 10%), or an improvement of 15% in MSE using hyperparameters. 
 
-3) We will continue from the sample article "" from the previous section. Passing this in along with the number of comments predicted of 157 gives a predicted sentiment of 0.0185 .
+3) We will continue from the sample political article from the previous section. Passing this in along with the number of comments predicted of 157 gives a predicted sentiment of 0.0185 .
 
 4) Once again, find the most relevant features which determine how sentiment is predicted. 
 
@@ -117,7 +117,12 @@ Once again, break down the trained model into similar 4 points.
 Note that number of words still is a very clear defining feature, but it is interesting that the predicted number of comments feature from the past model actually surpasses it in terms of importance. 
 
 **Engagement Metric Calculation:**
-The engagement metric is the final qualitative result intended for the New York Times writers which allows insight into how successful and well received an article is. Obviously, the basis for such a metric would be the public reviewal(number of comments), as well as the general tone of such reviews or articles(sentiment). Thus, the engagement metric calculation is given to the number of comments predicted multiplied by the predicted sentiment of such a model. Note that this final engagement metric is simply a combination of both our XGBoost model predictions. For our main article example, the final article engagement metric is calculated to thus be 157 x 0.0185 = 2.9045. 
+The engagement metric is the final qualitative result intended for the New York Times writers which allows insight into how successful and well received an article is. Obviously, the basis for such a metric would be the public reviewal(number of comments), as well as the general tone of such reviews or articles(sentiment). Thus, the engagement metric calculation is given to the number of comments predicted multiplied by the predicted sentiment of such a model. Note that this final engagement metric is simply a combination of both our XGBoost model predictions. For our main article example, the final article engagement metric is calculated to thus be 157 x 0.0185 = 2.9045. For a side by side comparison of our final product, run another sample article with the following criteria to see how it compares. This new article will have the fields  
+* Material type = News
+* Word count = 1107
+* Headline = 'mom dad fighting leftwing democrats lament sanderswarren rift'
+* Abstract = 'sudden breach 2 leading liberals democratic primary race disheartened fear provide advantage partys moderate candidates'
+The models ouptut predicted comments as ___ , predicted sentiment as ___ , and the final engagement metric as ___ . 
 
 # Discussion:
 
