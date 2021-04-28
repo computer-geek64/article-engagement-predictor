@@ -131,6 +131,10 @@ The models ouptut predicted comments as 12 , predicted sentiment as 0.179 , and 
 
 By analyzing and predicting the number of comments anticipated for an article, the publishers can determine the level of public interest in a given topic and can choose to follow up with corresponding related articles. Additionally, the sentiment analysis allows  the editors to determine how polarizing an article is, and potentially provide items such as blog posts to provide a forum for further public discussion. Low sentiment can tell the editor that perhaps the article should be revised to make it more engaging.
 
+# Conclusions:
+
+Through the course of this project, we have used transformers models as well as two XGBoost models in order to attempt to accurately predict viewer engagement for any given article with a header and abstract. This tool would be incredibly useful for not only New York Times, but theoretically any other newspaper in order to determine which target articles would bring the most success. By passing articles through the pipeline described in the project above, and validifying the models do indeed predict engagement with acceptable loss as shown in results, we have effectively created a way for NYT to visualize response to articles before publishing. 
+
 # Dataset:
 
 The dataset is too large (several gigabytes in size) to upload to the GitHub repository, in both its raw and preprocessed forms.
