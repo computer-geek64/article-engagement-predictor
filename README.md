@@ -63,11 +63,9 @@ After preprocessing, it becomes:
 
 which is more semantically useful for our model. When all these preprocessing measures were applied on the full dataset, articles.csv and comments.csv were reduced to
 
-articles_cleaned.csv -> Insert
-comments_cleaned.csv -> insert
+[`nyt-articles-2020-final-dataset.csv`](https://drive.google.com/file/d/1S2wB77Xs9i4D7ABly4Q7gDEGjmDEQ6yh/view)
 
-
-
+[`nyt-comments-2020-dropped-sample-cleaned-sentiment.csv`](https://drive.google.com/file/d/1VUxMTKd7UgP-4SXd0T1vjqywWKWMuxEh/view)
 
 
 ## Prediction of Number of Words and Sentiment ##
@@ -132,9 +130,6 @@ The models ouptut predicted comments as 12 , predicted sentiment as 0.179 , and 
 # Discussion:
 
 By analyzing and predicting the number of comments anticipated for an article, the publishers can determine the level of public interest in a given topic and can choose to follow up with corresponding related articles. Additionally, the sentiment analysis allows  the editors to determine how polarizing an article is, and potentially provide items such as blog posts to provide a forum for further public discussion. Low sentiment can tell the editor that perhaps the article should be revised to make it more engaging.
-
-# Conclusions:
-Through the course of this project, we have used transformers models as well as two XGBoost models in order to attempt to accurately predict viewer engagement for any given article with a header and abstract. This tool would be incredibly useful for not only New York Times, but theoretically any other newspaper in order to determine which target articles would bring the most success. By passing articles through the pipeline described in the project above, and validifying the models do indeed predict engagement with acceptable loss as shown in results, we have effectively created a way for NYT to visualize response to articles before publishing. 
 
 # Dataset:
 
