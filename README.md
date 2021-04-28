@@ -92,8 +92,8 @@ We will break down the trained XGBoost model results into four major points.
 3) Note that the model's ability is obviously best shown by it performing on a sample article with input parameters, and seeing how many comments it outputs. To keep this consistent, we will have one article with the following input features and pass it into both these models as well as the final engagement metric calculation to show how both models combine to provide estimated feedback. Our example article will have  
 * Material type = News
 * Word count = 1107
-* Headline = 'mom dad fighting leftwing democrats lament sanderswarren rift'
-* Abstract = 'sudden breach 2 leading liberals democratic primary race disheartened fear provide advantage partys moderate candidates'  
+* Headline = 'Mom and Dad Are Fighting’: Left-Wing Democrats Lament Sanders-Warren Rift'
+* Abstract = 'The sudden breach between the two leading liberals in the Democratic primary race has disheartened those who fear it could provide an advantage to the party’s moderate candidates.'  
 The tuned XGBoost model with the optimal parameters predicts the number of comments for this article as 157. 
 
 The graph below shows the feature importances of the number of comments model. As is visible, the number of comments of the article and the word count of the article are the most important features in predicting the number of comments. The features material_op-ed and material_news are also important features in the model, and they represent articles that are classified as either "News" or "Op-Ed"s by the New York Times. It's also visible that emb_feature57, which is one of the 768 word embeddings, is one of the less important features for the number of comments model. 
@@ -124,10 +124,10 @@ The 3D graph below shows the varying accuracies of the number of comments model 
 **Engagement Metric Calculation:**
 The engagement metric is the final qualitative result intended for the New York Times writers which allows insight into how successful and well received an article is. Obviously, the basis for such a metric would be the public reviewal(number of comments), as well as the general tone of such reviews or articles(sentiment). Thus, the engagement metric calculation is given to the number of comments predicted multiplied by the predicted sentiment of such a model. Note that this final engagement metric is simply a combination of both our XGBoost model predictions. For our main article example, the final article engagement metric is calculated to thus be 157 x 0.0185 = 2.9045. For a side by side comparison of our final product, run another sample article with the following criteria to see how it compares. This new article will have the fields  
 * Material type = News
-* Word count = 1107
-* Headline = 'mom dad fighting leftwing democrats lament sanderswarren rift'
-* Abstract = 'sudden breach 2 leading liberals democratic primary race disheartened fear provide advantage partys moderate candidates'
-The models ouptut predicted comments as ___ , predicted sentiment as ___ , and the final engagement metric as ___ . 
+* Word count = 1010
+* Headline = 'Dear Jets: There's Hope to Be Found in a Winless Season. Take It From Someone Who Knows.'
+* Abstract = 'For one thing, you are leading the race for the top draft pick. But seriously, even finishing at 0-16 can yield valuable resilience. So says Hue Jackson, who coached the winless 2017 Cleveland Browns.'
+The models ouptut predicted comments as 12 , predicted sentiment as 0.179 , and the final engagement metric as 2.1700. Note that this sample article has a slightly lower expected engagement response than the political article. 
 
 # Discussion:
 
