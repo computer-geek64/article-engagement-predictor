@@ -69,6 +69,10 @@ which is more semantically useful for our model. When all these preprocessing me
 
 
 ## Prediction of Number of Words and Sentiment ##
+**Workflow Diagram:**
+The data processing and prediction pipeline is shown below to better illustrate the steps taken to reach our predictions.\
+![flow](images/flow.png)
+
 **Number of Comments Model:**
  The goal of this model is to train on existing articles with every single numerical feature in order to predict the number of comments. These features include word count, average sentiment, the 768 features from word embedding, and the one hot encoding for material. The type of model used was an extreme gradient boost decision tree ([XGBoost](https://xgboost.readthedocs.io/en/latest/)) with 70% train data, 15% validation, and 15% test. We use [Bayesian hyperparameter optimization](https://optuna.readthedocs.io/en/stable/) for number of estimators, max depth, and learning rate. We can use this tuned model to predict the number of comments for a given article with all these input features. 
 
@@ -94,7 +98,7 @@ We will break down the trained XGBoost model results into four major points.
 * Abstract = 'The sudden breach between the two leading liberals in the Democratic primary race has disheartened those who fear it could provide an advantage to the party’s moderate candidates.'  
 The tuned XGBoost model with the optimal parameters predicts the number of comments for this article as 157. 
 
-The graph below shows the feature importances of the number of comments model. As is visible, the number of comments of the article and the word count of the article are the most important features in predicting the number of comments. The features material_op-ed and material_news are also important features in the model, and they represent articles that are classified as either "News" or "Op-Ed"s by the New York Times. It's also visible that emb_feature57, which is one of the 768 word embeddings, is one of the less important features for the number of comments model. 
+The graph below shows the feature importances of the number of comments model. As is visible, the sentiment magnitude of the article and the word count of the article are the most important features in predicting the number of comments. The features material_op-ed and material_news are also important features in the model, and they represent articles that are classified as either "News" or "Op-Ed"s by the New York Times. It's also visible that emb_feature57, which is one of the 768 word embeddings, is one of the less important features for the number of comments model. 
 
 ![comment_feature_importance](images/num_comments_graph.png)
 
