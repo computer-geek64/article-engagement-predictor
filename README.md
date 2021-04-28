@@ -81,7 +81,8 @@ The goal and structure of the sentiment prediction model is very similar to the 
 Note that at this stage, we are equipped to be given a new article with a headline and abstract and run these series of models to predict user response. We can use the number of comments model to in turn train the sentiment prediction model, which will give us a sentiment value which is an estimate of how the target audience will view the article. A final engagement metric column will then be calculated based on the number of comments and predicted sentiment value which is the final indicator of the success of an article meant to be tested on. 
 
 # Results:
-After the entire process is complete, we end up with a newly calculated Engagement Metric for each article. This number represents how much traction each article generates. When we want to take a new unpublished article and determine what its engagement might be, we use our 2 models and newly generated columns to predict the number of comments and the sentiment of the article.
+After the entire process is complete, we end up with a newly calculated Engagement Metric for each article. This number represents how much traction each article generates. When we want to take a new unpublished article and determine what its engagement might be, we use our 2 models and newly generated columns to predict the number of comments and the sentiment of the article.  
+
 **Number of Comments Model:**
 We will break down the trained XGBoost model results into four major points. 
 1) When trained on the dataset with no hyperparameter optimization and default params of (n_estimators = 100, max_depth= 6, learning_rate: 0.01), the MSE for the testing data portion is 173802.452(percent error is 14.40%). 
