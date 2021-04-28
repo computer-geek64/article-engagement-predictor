@@ -12,7 +12,7 @@ Given various features of a New York Times article as inputs, the goal of our pr
 * Final output: Engagement metric (calculated through a weighted sum of the number of comments and the magnitude of the sentiment that the article is forecasted to receive)
 
 # Data
-Two CSV files from Kaggle, articles.csv and comments.csv. These are linked through unique IDs which correspond to the info about articles and the individual comments corresponding to each comment. 
+The actual dataset can be downloaded from Kaggle (https://www.kaggle.com/benjaminawd/new-york-times-articles-comments-2020), and we demonstrated the main part of our preprocessing model in the preprocessing section below. These are two CSV files from Kaggle, articles.csv and comments.csv. These are linked through unique IDs which correspond to the info about articles and the individual comments corresponding to each comment. 
 * Article columns - newsdesk, section, subsection, material, headline, abstract, keyword, word count, publish date, number comments, link ID
 * Comment columns - comment ID, status, user ID, flagged, trusted, comment body, link ID
 
@@ -135,12 +135,6 @@ By analyzing and predicting the number of comments anticipated for an article, t
 
 Through the course of this project, we have used transformers models as well as two XGBoost models in order to attempt to accurately predict viewer engagement for any given article with a header and abstract. This tool would be incredibly useful for not only New York Times, but theoretically any other newspaper in order to determine which target articles would bring the most success. By passing articles through the pipeline described in the project above, and validifying the models do indeed predict engagement with acceptable loss as shown in results, we have effectively created a way for NYT to visualize response to articles before publishing. 
 
-# Dataset:
-
-The dataset is too large (several gigabytes in size) to upload to the GitHub repository, in both its raw and preprocessed forms.
-Furthermore, it is bad practice to integrate files of immense sizes into version control systems, because the commit graph can expand at an exponential rate when merging and executing other complex Git actions.
-
-Therefore, the actual dataset can be downloaded from Kaggle ([https://www.kaggle.com/benjaminawd/new-york-times-articles-comments-2020](https://www.kaggle.com/benjaminawd/new-york-times-articles-comments-2020)), and we demonstrated the main part of our preprocessing model in the preprocessing section above.
 
 # References:
 
