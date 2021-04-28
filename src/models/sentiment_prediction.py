@@ -38,7 +38,8 @@ def xgb_objective(trial, X, y, estimator):
 def optimize(estimator, X_train, X_val, y_train, y_val, timeout):
     estimator.fit(X_train, y_train)
     study = optuna.create_study(direction='maximize')  # maximize or minimize?
-    study.optimize(lambda trial: xgb_objective(trial, X_val, y_val, estimator), timeout=timeout)
+    study.optimize(lambda trial: xgb_objective(
+        trial, X_val, y_val, estimator), timeout=timeout)
     estimator.set_params(**study.best_params)
 
 
@@ -48,14 +49,17 @@ def generate_and_evaluate_model(dataset, hyperparameterization=False, timeout=30
     y = data['avg_comment_sentiment_magnitude']
 
     # 70% train, 15% val, 15% test
-    X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, test_size=0.15)
-    X_train, X_val, y_train, y_val = model_selection.train_test_split(X_train, y_train, test_size=(0.15/0.85))
+    X_train, X_test, y_train, y_test = model_selection.train_test_split(
+        X, y, test_size=0.15)
+    X_train, X_val, y_train, y_val = model_selection.train_test_split(
+        X_train, y_train, test_size=(0.15/0.85))
 
     if hyperparameterization:
         model = xgboost.XGBRegressor()
         optimize(model, X_train, X_val, y_train, y_val, timeout)
     else:
-        model = xgboost.XGBRegressor(n_estimators=100, max_depth=6, learning_rate=0.01)
+        model = xgboost.XGBRegressor(
+            n_estimators=100, max_depth=6, learning_rate=0.01)
         model.fit(X_train, y_train)
     predictions = model.predict(X_test)
     accuracy = metrics.mean_squared_error(y_test, predictions)
@@ -71,11 +75,13 @@ def graph_feature_model(model):
     # data.plot(kind='barh')
     # plt.show()
     feature_importance = model.get_booster().get_score(importance_type='weight')
+    print(len(feature_importance))
     sort_features = sorted(feature_importance, key=lambda x: x[1])
+    print(len(sort_features))
     fexists = False
     items = []
     for feature in sort_features:
-        if len(items) < 5:
+        if len(items) < 8:
             if 'emb_feature' in feature:
                 if not fexists:
                     items.append(feature)
@@ -87,13 +93,15 @@ def graph_feature_model(model):
     data = pd.DataFrame(data=values, index=items, columns=[
         "score"]).sort_values(by="score", ascending=False)
     data.plot(kind='barh')
+    plt.show()
 
 
 def graph_params_and_accuracies():
     pass
 
 
-model, accuracy = generate_and_evaluate_model(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data', 'nyt-articles-2020-final-dataset.csv'), hyperparameterization=False, timeout=10)
+model, accuracy = generate_and_evaluate_model(
+    'C:/Users/Nisha/Downloads/nyt-articles-2020-final-dataset.csv', hyperparameterization=False, timeout=10)
 print(accuracy)
 print(model.get_params())
 print(iterative_params_and_accuracies)
